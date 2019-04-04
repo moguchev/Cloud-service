@@ -10,6 +10,8 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - libstdc++-7-dev
+    - cmake
+    - cmake-data
 
 before_install:
   # C++17
@@ -25,6 +27,9 @@ install:
 script:
   - chmod 777 ./cpplint.py
   - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
-  - mkdir build && cd build
-  - cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DCMAKE_EXE_LINKER_FLAGS=-fuse-ld=gold .. && make 
   - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
+  - cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install -DBUILD_TESTS=ON
+  - cmake --build _build
+  - cmake --build _build --target install
+  - cmake --build _build --target test -- ARGS=--verbose
+ 
