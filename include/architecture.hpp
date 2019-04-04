@@ -18,6 +18,7 @@ public:
         show(const std::string& what) = 0;
     virtual bool download(const std::string& what) = 0;
     virtual bool upload(const std::string& what) = 0;
+    virtual ~AbstractClient() = 0;
 };
 
 class ConsoleClient : public  AbstractClient {
@@ -33,48 +34,54 @@ public:
 class Resolver {
 public:
     virtual void handle_messege() = 0;
+    virtual ~Resolver() = 0;
 };
 
 //////////////////////////////////////////////////////////////////
 // сетевой уровень ///////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-class Rest_client {
+class RestClient {
 public:
     virtual void handle_response() = 0;
     virtual void handle_request() = 0;
-    
+    virtual ~RestClient() = 0;
 };
 
-class Rest_server {
+class RestServer {
 public:
     virtual void handle_request() = 0;
+    virtual ~RestServer() = 0;
 };
 
 class Request {
 public:
     virtual void get_body() = 0;
     virtual void set_body() = 0;
+    virtual ~Request() = 0;
 };
 
 class Response {
 public:
     virtual void get_body() = 0;
     virtual void set_body() = 0;
+    virtual ~Response() = 0;
 };
 
 //////////////////////////////////////////////////////////////////
 // бизнес уровень ////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-class Comand {
+class Command {
     virtual void execute() = 0;
+    virtual ~Command() = 0;
 };
 
 class Controller {
-    Comand* _comand;
+    Command* _command;
 public:
-    virtual void set_command(const Comand& c) = 0;
+    virtual void set_command(const Command& c) = 0;
+    virtual ~Controller() = 0;
 };
 
 
@@ -84,7 +91,8 @@ public:
 
 
 class Reciver {
-    virtual void operator()(const Comand& c) = 0;
+    virtual void operator()(const Command& c) = 0;
+    virtual ~Reciver() = 0;
 };
 
 

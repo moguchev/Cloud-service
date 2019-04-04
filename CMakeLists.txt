@@ -24,6 +24,7 @@ target_include_directories(Cloud9
 target_include_directories(tests 
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
 enable_testing()
 add_test(NAME unit_tests COMMAND tests) 
 
