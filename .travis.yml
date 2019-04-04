@@ -27,9 +27,8 @@ install:
 script:
   - chmod 777 ./cpplint.py
   - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
-  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
   - cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install -DBUILD_TESTS=ON
   - cmake --build _build
-  - cmake --build _build --target install
   - cmake --build _build --target test -- ARGS=--verbose
+  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
  
