@@ -12,9 +12,8 @@ class AbstractClient {
 public:
     virtual void login(
         const std::string& login,
-        const std::string& password
-    ) = 0;
-    virtual std::map<std::string, std::any> 
+        const std::string& password) = 0;
+    virtual std::map<std::string, std::any>
         show(const std::string& what) = 0;
     virtual bool download(const std::string& what) = 0;
     virtual bool upload(const std::string& what) = 0;
