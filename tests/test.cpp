@@ -1,5 +1,7 @@
 // Copyright 2019 (c) <Cloud9>
 
-#include "architecture.hpp"
+#include <gtest/gtest.h>
+#include <architecture.hpp>
 
 // TODO(test)
+

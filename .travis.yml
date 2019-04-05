@@ -1,34 +1,21 @@
-language: cpp
-sudo: true
+os: linux
+sudo: required
+language:
+- minimal
+services:
+- docker
+
+jobs:
+  include:
+    - name: "checks"
+      script:
+      - docker run  -v `pwd`:`pwd` -w `pwd` -t rusdevops/bootstrap:cpp scripts/checks.sh
+      - chmod 777 ./cpplint.py
+      - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done$
+    - name: "tests"
+      script:
+      - ./scripts/genenv.sh
+      - docker run --env-file .env -v `pwd`:`pwd` -w `pwd` -t rusdevops/bootstrap:cpp scripts/tests.sh
 
 notifications:
-  email: false
-  
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - libstdc++-7-dev
-    - cmake
-    - cmake-data
-
-before_install:
-  # C++17
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
-
-install: 
-  # C++17
-  - sudo apt-get install -qq g++-7
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
-  - eval "CC=/usr/bin/gcc && CXX=/usr/bin/g++"
-
-script:
-  - chmod 777 ./cpplint.py
-  - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
-  - cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install -DBUILD_TESTS=ON
-  - cmake --build _build
-  - cmake --build _build --target test -- ARGS=--verbose
-  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
- 
+    email: false
