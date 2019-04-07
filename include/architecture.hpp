@@ -15,6 +15,7 @@ public:
     virtual void logout() = 0;
     virtual void run(const std::string& command) = 0;
     virtual void set_resolver(const Resolver* res) = 0;
+    virtual ~AbstractClient() = 0;
 private:
     Resolver* resolver_ = nullptr;
 };
@@ -29,27 +30,26 @@ class Resolver {
 public:
     virtual void handle_command(const std::string& command) = 0;
     virtual std::string get_answer() = 0;
+    virtual ~Resolver() = 0;
 };
 
-class Rest_client {
+class RestClient {
 public:
     virtual std::string handle_request() = 0;
     virtual std::string handle_response() = 0;
-};
-
-class Rest_server {
-public:
-    virtual std::string handle_request() = 0;
+    virtual ~RestClient() = 0;
 };
 
 class Request {
 public:
     virtual std::string get_body() = 0;
     virtual std::string set_body() = 0;
+    virtual ~Request() = 0;
 };
 
 class Response {
 public:
     virtual std::string get_body() = 0;
     virtual std::string set_body() = 0;
+    virtual ~Response() = 0;
 };
