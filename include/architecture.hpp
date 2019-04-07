@@ -6,18 +6,20 @@
 #include <string>
 
 //////////////////////////////////////////////////////////////////
-// СѓСЂРѕРІРµРЅСЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРіРѕ РёРЅС‚РµСЂС„РµР№СЃР°///////////////////////////
+// уровень пользовательского интерфейса///////////////////////////
 //////////////////////////////////////////////////////////////////
+class Resolver;
+
 class AbstractClient {
 public:
     virtual void login(
         const std::string& login,
         const std::string& password) = 0;
-    virtual std::map<std::string, std::any>
-        show(const std::string& what) = 0;
-    virtual bool download(const std::string& what) = 0;
-    virtual bool upload(const std::string& what) = 0;
-    virtual ~AbstractClient() = 0;
+    virtual void logout() = 0;
+    virtual void run(const std::string& command) = 0;
+    virtual void set_resolver(const Resolver* res) = 0;
+private:
+    Resolver* resolver_ = nullptr;
 };
 
 class ConsoleClient : public  AbstractClient {
@@ -27,74 +29,38 @@ public:
 };
 
 //////////////////////////////////////////////////////////////////
-// РїСЂРёРєР»Р°РґРЅРѕР№ СѓСЂРѕРІРµРЅСЊ ////////////////////////////////////////////
+// прикладной уровень ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 class Resolver {
 public:
-    virtual void handle_messege() = 0;
-    virtual ~Resolver() = 0;
+    virtual void handle_command(const std::string& command) = 0;
+    virtual std::string get_answer() = 0;
 };
 
 //////////////////////////////////////////////////////////////////
-// СЃРµС‚РµРІРѕР№ СѓСЂРѕРІРµРЅСЊ ///////////////////////////////////////////////
+// сетевой уровень ///////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-class RestClient {
+class Rest_client {
 public:
-    virtual void handle_response() = 0;
-    virtual void handle_request() = 0;
-    virtual ~RestClient() = 0;
+    virtual std::string handle_request() = 0;
+    virtual std::string handle_response() = 0;
 };
 
-class RestServer {
+class Rest_server {
 public:
-    virtual void handle_request() = 0;
-    virtual ~RestServer() = 0;
+    virtual std::string handle_request() = 0;
 };
 
 class Request {
 public:
-    virtual void get_body() = 0;
-    virtual void set_body() = 0;
-    virtual ~Request() = 0;
+    virtual std::string get_body() = 0;
+    virtual std::string set_body() = 0;
 };
 
 class Response {
 public:
-    virtual void get_body() = 0;
-    virtual void set_body() = 0;
-    virtual ~Response() = 0;
+    virtual std::string get_body() = 0;
+    virtual std::string set_body() = 0;
 };
-
-//////////////////////////////////////////////////////////////////
-// Р±РёР·РЅРµСЃ СѓСЂРѕРІРµРЅСЊ ////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-
-class Command {
-    virtual void execute() = 0;
-    virtual ~Command() = 0;
-};
-
-class Controller {
-    Command* _command;
-public:
-    virtual void set_command(const Command& c) = 0;
-    virtual ~Controller() = 0;
-};
-
-
-//////////////////////////////////////////////////////////////////
-// СѓСЂРѕРІРµРЅСЊ РґРѕСЃС‚СѓРїР° Рє РґР°РЅРЅС‹Рј //////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-
-
-class Reciver {
-    virtual void operator()(const Command& c) = 0;
-    virtual ~Reciver() = 0;
-};
-
-
-//////////////////////////////////////////////////////////////////
-// Р‘Р” ////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
