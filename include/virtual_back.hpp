@@ -7,7 +7,8 @@
 class DataBase {
 public:
     virtual std::any get(const std::any& data) const = 0;
-    virtual void make_note(const std::any& root, const std::any& data) const = 0;
+    virtual void make_note(const std::any& root,
+                           const std::any& data) const = 0;
     virtual void delete_note(const std::any& str) = 0;
     virtual ~DataBase() = 0;
 };
