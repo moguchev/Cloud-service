@@ -1,38 +1,126 @@
 // Copyright 2019 (c) <Cloud9>
 
-#include <gtest/gtest.h>
-#include <client_side.hpp>
+//
+// Created by Андронов Дмитрий on 2019-04-08.
+//
+#include <unordered_map>
+#include "classes.hpp"
 
-TEST(Client, CheckLogin) {
-  ConsoleClient& client = ConsoleClient::getInstance();
+    class FakeDataBase: public AbstractDataBase {
+    private:
+        std::unordered_map <std::string , std::string> baseData;
+    public:
+        std::string get(const std::string& data) const override;
+        void makeNote(const std::string& root,
+                      const std::string& data) const override;
+        void deleteNote(const std::string& str) override ;
+        ~FakeDataBase() = default;
+    };
 
-  std::string login = "Admin";
-  std::string password = "Admin";
-  EXPECT_TRUE(client.login(login, password));
+// Test authentication
 
-  login = "Admin";
-  password = "WrongPassword";
-  EXPECT_FALSE(client.login(login, password));
+    class TestAuthentication : public ::testing::Test {
+    public:
+        TestAuthentication() {
+            FakeDataBase fakeBase;
+        }
+        ~TestAuthentication() {}
+
+        void SetUp () {
+            FakeDataBase fakeBase;
+            fakeBase.makeNote("Dima" , "123");
+
+        }
+    };
+
+
+TEST_F (TestAuthentication ,  properAuth) {
+    Authentication auth ("Dima" , "123");
+    Condition condition = auth.execute ();
+    EXCEPT_EQ (condition , Condition::OK);
 }
 
-TEST(Client, CheCkRun) {
-  auto resolver = new BasicResolver();
-  ConsoleClient& client = ConsoleClient::getInstance();
-  EXPECT_THROW(client.run("cloud merge"), std::runtime_error);
-
-  client.set_resolver(resolver);
-  EXPECT_NO_THROW(client.run("cloud merge"));
+TEST_F (TestAuthentication , badAuth) {
+    Authentication auth ("alexey" , "1255");
+    Condition condition = auth.execute ();
+    EXCEPT_EQ (condition , Condition::ERROR);
 }
 
-TEST(REST, Requests) {
-  auto client_server = new BoostHTTPClient;
-  EXPECT_NO_THROW(client_server->handle_request("GET file.txt"));
-  EXPECT_NO_THROW(client_server->handle_request("POST file.txt"));
-  EXPECT_NO_THROW(client_server->handle_request("DELETE file.txt"));
-  EXPECT_NO_THROW(client_server->handle_request("PUT file.txt"));
 
-  EXPECT_EQ(client_server->handle_request("GET file.txt"), "success...");
-  EXPECT_EQ(client_server->handle_request("POST file.txt"), "success...");
-  EXPECT_EQ(client_server->handle_request("DELETE file.txt"), "success...");
-  EXPECT_EQ(client_server->handle_request("PUT file.txt"), "success...");
+// test registration
+class TestRegistration  : public ::testing::Test {
+public:
+    TestRegistration() {
+        FakeDataBase fakeBase;
+    }
+    ~TestSerialization() {}
+    void SetUp () {
+        fakeBase.makeNote("dima" , "123");
+    }
 }
+
+
+TEST_F(TestRegistration , properRegistration) {
+    Registration reg ("Alexey" , "987");
+    Condition condition = reg.execute();
+    EXCEPT_EQ (condition , Condition::OK);
+}
+
+TEST_F (TestRegistration , badRegistration) {
+    Registration reg ("Dima" , "abc");
+    Condition condition = reg.execute () ;
+    EXCEPT_EQ (condition , Condition::ERROR);
+}
+
+// Test isExistUser
+ class TestIsExistUser  : public ::testing::Test {
+public:
+    TestIsExistUser() {
+        FakeDataBase fakeBase;
+    }
+    ~TestIsExistUser() {}
+    void SetUp () {
+        fakeBase.makeNote("dima" , "123");
+    }
+}
+
+
+TEST_F (TestIsExistUser , UserExist) {
+    isExistUser testUse ("dima");
+    Condition condition = testUse.execute();
+    EXCEPT_EQ (condition , Condition::OK);
+}
+
+
+// test Add New Client
+
+TEST(PushRequestTest , ProperTest) {
+    RestServer restServer(nullptr);
+    Request req;
+    int size = restServer.sizeQueue();
+    restServer.pushRequest(req);
+    int newSize = restServer.sizeQueue()
+    EXCEPT_EQ (newSize - size , 1);
+
+}
+
+TEST(PushRequestTest , ProperTest) {
+    RestServer restServer(nullptr);
+    Request req;
+    int size = restServer.sizeQueue();
+    restServer.pushRequest(req);
+    int size = restServer.sizeQueue();
+    restServer.popRequest();
+    int newSize = restServer.sizeQueue();
+    EXCEPT_EQ (size - newSize , 1);
+}
+
+
+
+
+
+int main(int argc, char** argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
