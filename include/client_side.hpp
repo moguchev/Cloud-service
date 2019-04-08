@@ -17,7 +17,7 @@ public:
 
 class BasicResolver : public Resolver {
     virtual void handle_command(const std::string& command) {
-        auto docommand = command /* logic */
+        auto docommand = command; /* logic */
     }
 
     virtual std::string get_answer() {
@@ -39,19 +39,15 @@ class AbstractClient {
 };
 
 bool check_command(const std::string& command) {
+    auto str = command;
     return false;
 }
-
-class ConsoleClientDestroyer;
 
 class ConsoleClient : public AbstractClient {
  public:
       static ConsoleClient& getInstance() {
-          if (!p_instance) {
-              p_instance = new ConsoleClient();
-              destroyer_.initialize(p_instance);
-          }
-          return *p_instance;
+          static ConsoleClient instance;
+          return p_instance;
       }
 
       virtual bool login(const std::string& login,
@@ -105,23 +101,6 @@ class ConsoleClient : public AbstractClient {
       std::pair<std::string, std::string> user_;
       std::string buffer_;
       Resolver* resolver_ = nullptr;
-
- private:
-      static ConsoleClient* p_instance;
-      static ConsoleClientDestroyer destroyer_;
-      friend class ConsoleClientDestroyer;
-};
-
-class ConsoleClientDestroyer {
- private:
-  ConsoleClient* p_instance = nullptr;
-
- public:
-  ~ConsoleClientDestroyer() {
-    if (p_instance != nullptr) delete p_instance;
-  }
-
-  void initialize(ConsoleClient* client) { p_instance = client; }
 };
 
 class RestClient {
