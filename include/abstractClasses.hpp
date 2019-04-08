@@ -2,131 +2,54 @@
 // Created by Андронов Дмитрий on 2019-04-08.
 //
 
-//
-// Created by Андронов Дмитрий on 2019-04-08.
-//
-
 
 #pragma once
-#include "abstractClasses.hpp"
+#include <iostream>
+#include <any>
+#include <map>
+#include <string>
+#include <vector>
 
-class Request : public AbstractRequest {
-public:
-    std::string getBody() override ;
-    std::string setBody() override ;
-    ~Request() = default;
-};
+#include "Alexey_backend.hpp"
 
-class Response : public AbstractResponse {
-public:
-    virtual std::string getBody() override ;
-    virtual std::string setBody() override ;
-    virtual ~Response() = default;
-};
 
-class Authentication : public AbstractControllerCommand {
-private:
-    std::string login_;
-    std::string password_;
+enum class Condition {OK , ERROR};
+
+class AbstractControllerCommand {
 public:
-    explicit Authentication (std::string login , std::string password);
-    Condition execute () override;
-    std::string getLogin ();
-    std::string getPassword();
-    ~Authentication ()= default;
+    virtual Condition execute () = 0;
+    virtual ~AbstractControllerCommand() = default;
 };
 
 
-class isExistUser : public AbstractControllerCommand {
-private:
-    std::string login_;
+class AbstractRequest {
 public:
-    explicit isExistUser (std::string login );
-    Condition execute () override;
-    std::string getLogin ();
-    ~isExistUser () = default;
+    virtual std::string getBody() = 0;
+    virtual std::string setBody() = 0;
+    virtual ~AbstractRequest() = default;
+};
+
+class AbstractResponse {
+public:
+    virtual std::string getBody() = 0;
+    virtual std::string setBody() = 0;
+    virtual ~AbstractResponse() = default;
 };
 
 
-
-class Registration : public AbstractControllerCommand {
-private:
-    std::string login_;
-    std::string password_;
+class AbstractRestServer {
 public:
-    explicit Registration (std::string login , std::string password);
-    Condition execute () override;
-    std::string getLogin ();
-    std::string getPassword ();
-    ~Registration () = default;
-};
-
-
-class Download : public AbstractControllerCommand {
-private:
-    std::string login_;
-    std::string password_;
-public:
-    explicit Download (std::string login , std::string password);
-    Condition execute () override;
-    std::string getLogin ();
-    std::string getPassword ();
-    ~Download () = default;
-};
-
-class Upload : public AbstractControllerCommand {
-private:
-    std::string login_;
-    std::string password_;
-public:
-    explicit Upload (std::string login , std::string password);
-    Condition execute () override;
-    std::string getLogin ();
-    std::string getPassword ();
-    ~Upload () = default;
-};
-
-
-class Merge : public AbstractControllerCommand {
-private:
-    std::string login_;
-    std::string password_;
-public:
-    explicit Merge (std::string login , std::string password);
-    Condition execute () override;
-    std::string getLogin ();
-    std::string getPassword ();
-    ~Merge () = default;
+    virtual bool getRequest (AbstractRequest* request) = 0;
+    virtual bool sendResponse () = 0;
+    virtual ~AbstractRestServer() = default;
 };
 
 
 
-class Controller : public AbstractController {
-private:
-    AbstractReceiver* receiver_;
-    AbstractCommand* command_;
-    Condition condition_;
+class AbstractController {
 public:
-    explicit Controller (AbstractReceiver* receiver);
-
-    bool execute_command() override ;
-
-    void set_command(AbstractControllerCommand* command) override ;
-
-    ~Controller() = default;
+    virtual bool execute_command() = 0;
+    virtual void set_command(AbstractControllerCommand* command) = 0;
+    virtual ~AbstractController() = default;
 };
 
-class RestServer : public AbstractRestServer {
-public:
-    explicit RestServer(Controller*);
-    bool getRequest (AbstractRequest* request) override;
-    bool sendResponse () override;
-    bool pushRequest (AbstractRequest request);
-    bool popRequest ();
-    int sizeQueue ();
-    ~RestServer();
-
-private:
-    std::vector<AbstractRequest> queueRequest_;
-    Controller* controller_;
-};
