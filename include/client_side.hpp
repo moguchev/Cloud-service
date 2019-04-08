@@ -69,8 +69,11 @@ class ConsoleClient : public AbstractClient {
       }
 
       virtual bool set_resolver(Resolver* resolver) {
-          if (resolver != nullptr)
-            resolver_ = resolver;
+          if (resolver != nullptr) {
+              resolver_ = resolver;
+              return true;
+          }
+          return false;
       }
 
       void write_to_console(const std::string& message) const {
