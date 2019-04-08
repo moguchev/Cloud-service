@@ -6,13 +6,13 @@
 #include <any>
 
 class DataBase {
-private:
+protected:
     std::map<std::any, std::any> _database;
 
 public:
     virtual std::any get(const std::any& data) = 0;
-    virtual bool make_note(const std::any& root, const std::any& data) = 0;
-    virtual bool delete_note(const std::any& str) = 0;
+    virtual void make_note(const std::any& root, const std::any& data) = 0;
+    virtual void delete_note(const std::any& str) = 0;
     virtual ~DataBase() = 0;
 };
 
