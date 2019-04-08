@@ -27,7 +27,7 @@ public:
         }
     }
 
-    ~DataBase() {}
+    ~MyDataBase() {}
 };
 
 MyDataBase myDataBase;
@@ -44,6 +44,7 @@ public:
     bool execute(const DataBase* database) {
         database->make_note(_root, _data);
     }
+    ~Load() {}
 };
 
 class MyReceiver : public Receiver {
@@ -51,7 +52,7 @@ public:
     bool operator()(Command* command) {
         command->execute(myDataBase);
     }
-    ~Receiver() {}
+    ~MyReceiver() {}
 };
 
 MyReceiver myReceiver;
