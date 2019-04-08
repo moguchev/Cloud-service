@@ -87,8 +87,9 @@ class ConsoleClient : public AbstractClient {
               if (check_command(buffer_)) {
                   auto answer = run(buffer_);
                   write_to_console(answer);
-              } else
+              } else {
                   write_to_console("no such command");
+              }
           }
           return;
       }
@@ -118,7 +119,7 @@ class ConsoleClientDestroyer {
  public:
   ~ConsoleClientDestroyer() {
     if (p_instance != nullptr) delete p_instance;
-  };
+  }
 
   void initialize(ConsoleClient* client) { p_instance = client; }
 };
