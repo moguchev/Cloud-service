@@ -50,7 +50,7 @@ public:
 class MyReceiver : public Receiver {
 public:
     bool operator()(Command* command) {
-        command->execute(myDataBase);
+        command->execute(&myDataBase);
     }
     ~MyReceiver() {}
 };
