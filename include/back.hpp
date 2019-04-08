@@ -4,27 +4,26 @@
 #define INCLUDE_BACK_HPP_
 
 #include "virtual_back.hpp"
-#include <map>
+#include <unordered_map>
 
 class MyDataBase : public DataBase {
 private:
-    std::map<std::any, std::any> _database;
-
+    std::unordered_map<std::string, std::string> _database;
 
 public:
-    std::any get(const std::any& data) const {
+    std::string get(const std::string& data) override {
         if (_database.find(data) != _database.end()) {
             return _database[data];
         } else {
-            return std::make_any(nullptr);
+            return "";
         }
     }
 
-    void make_note(const std::any& root, const std::any& data) const {
+    void makeNote(const std::string &root, const std::string &data) override {
         _database[root] = data;
     }
 
-    void delete_note(const std::any& data) {
+    void deleteNote(const std::string &data) override {
         auto it = _database.find(data);
 
         if (it != _database.end()) {
@@ -32,32 +31,32 @@ public:
         }
     }
 
-    ~MyDataBase() {}
+    ~MyDataBase() override = default;
 };
 
 MyDataBase myDataBase;
 
 class Load : public Command {
-    std::any _root;
-    std::any _data;
+    std::string _root;
+    std::string _data;
 
 public:
-    Load(const std::any& root, const std::any& data) {
+    Load(const std::string& root, const std::string& data) {
         _root = root;
         _data = data;
     }
-    void execute(const DataBase* database) const {
-        database->make_note(_root, _data);
+    void execute(DataBase* database)  const override {
+        database->makeNote(_root, _data);
     }
-    ~Load() {}
+    ~Load() override = default;
 };
 
 class MyReceiver : public Receiver {
 public:
-    void operator()(Command* command) const {
+    void operator()(Command* command) const override {
         command->execute(&myDataBase);
     }
-    ~MyReceiver() {}
+    ~MyReceiver() override = default;
 };
 
 MyReceiver myReceiver;

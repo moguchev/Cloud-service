@@ -3,47 +3,45 @@
 #include <gtest/gtest.h>
 #include <../include/back.hpp>
 
-
 TEST(database, good) {
-    std::any root = std::make_any("login");
-    std::any data = std::make_any("mail");
+    std::string root = "login";
+    std::string data = "mail";
 
-    myDataBase.make_note(root, data);
-    std::any answer = myDataBase.get(root);
+    myDataBase.makeNote(root, data);
+    std::string answer = myDataBase.get(root);
 
     EXPECT_EQ(answer, data);
 }
 
 TEST(database, bad) {
-    std::any root = std::make_any("login");
-    std::any data = std::make_any("mail");
+    std::string root = "login";
+    std::string data = "mail";
 
-    myDataBase.make_note(root, data);
-    std::any answer = myDataBase.get(std::make_any("logout"));
+    myDataBase.makeNote(root, data);
+    std::string answer = myDataBase.get("logout");
 
-    EXPECT_EQ(answer, std::make_any(nullptr));
+    EXPECT_EQ(answer, std::string(""));
 }
 
 TEST(database, delete_note) {
-    std::any root = std::make_any("login");
-    std::any data = std::make_any("mail");
+    std::string root = "login";
+    std::string data = "mail";
 
-    myDataBase.make_note(root, data);
-    std::any answer = myDataBase.get(std::make_any("login"));
+    myDataBase.makeNote(root, data);
+    std::string answer = myDataBase.get("login");
     EXPECT_EQ(answer, data);
 
-    myDataBase.delete_note(root);
-    answer = myDataBase.get(std::make_any("login"));
-    EXPECT_EQ(answer, std::make_any(nullptr));
+    myDataBase.deleteNote(root);
+    answer = myDataBase.get("login");
+    EXPECT_EQ(answer, std::string(""));
 }
 
 TEST(receiver, execute) {
-    Load load(std::make_any("login"), std::make_any("mail"));
+    Load load("login", "mail");
 
     myReceiver(&load);
 
-    std::any answer = myDataBase.get(std::make_any("login"));
+    std::string answer = myDataBase.get("login");
 
-    EXPECT_EQ(answer, std::make_any("mail"));
+    EXPECT_EQ(answer, std::string("mail"));
 }
-
