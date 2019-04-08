@@ -4,11 +4,13 @@
 #define INCLUDE_BACK_HPP_
 
 #include "virtual_back.hpp"
+#include <map>
 
 class MyDataBase : public DataBase {
 private:
     std::map<std::any, std::any> _database;
-    
+
+
 public:
     std::any get(const std::any& data) {
         if (_database.find(data) != _database.end()) {
@@ -44,7 +46,7 @@ public:
         _root = root;
         _data = data;
     }
-    bool execute(const DataBase* database) {
+    void execute(const DataBase* database) const {
         database->make_note(_root, _data);
     }
     ~Load() {}
@@ -52,7 +54,7 @@ public:
 
 class MyReceiver : public Receiver {
 public:
-    bool operator()(Command* command) {
+    void operator()(Command* command) const {
         command->execute(&myDataBase);
     }
     ~MyReceiver() {}
