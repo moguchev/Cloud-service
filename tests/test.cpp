@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include <client_side.hpp>
 
-TEST(Ñlient, CheckLogin) {
+TEST(Client, CheckLogin) {
   ConsoleClient& client = ConsoleClient::getInstance();
   ConsoleClientDestroyer destructor;
   destructor.initialize(&client);
@@ -17,7 +17,7 @@ TEST(Ñlient, CheckLogin) {
   EXPECT_FALSE(client.login(login, password));
 }
 
-TEST(Ñlient, CheckRun) {
+TEST(Client, CheCkRun) {
   auto resolver = new BasicResolver();
   ConsoleClient& client = ConsoleClient::getInstance();
   ConsoleClientDestroyer destructor;
