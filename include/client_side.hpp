@@ -47,7 +47,7 @@ class ConsoleClient : public AbstractClient {
  public:
       static ConsoleClient& getInstance() {
           static ConsoleClient instance;
-          return p_instance;
+          return instance;
       }
 
       virtual bool login(const std::string& login,
