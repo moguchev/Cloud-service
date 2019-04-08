@@ -1,9 +1,7 @@
-//
-// Created by Алексей on 2019-04-08.
-//
+// Copyright 2019 (c) <Cloud9>
 
-#ifndef PROJECT_VIRTUAL_BACK_H
-#define PROJECT_VIRTUAL_BACK_H
+#ifndef INCLUDE_VIRTUAL_BACK_HPP_
+#define INCLUDE_VIRTUAL_BACK_HPP_
 #include <map>
 #include <any>
 
@@ -30,4 +28,4 @@ public:
     virtual ~Receiver() = 0;
 };
 
-#endif //PROJECT_VIRTUAL_BACK_H
+#endif //INCLUDE_VIRTUAL_BACK_HPP_
