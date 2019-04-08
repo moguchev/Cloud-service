@@ -40,9 +40,9 @@ TEST(database, delete_note) {
 TEST(receiver, execute) {
     Load load(std::make_any("login"), std::make_any("mail"));
 
-    myReceiver(load);
+    myReceiver(&load);
 
-    answer = myDataBase.get(std::make_any("login"));
+    std::any answer = myDataBase.get(std::make_any("login"));
 
     EXPECT_EQ(answer, std::make_any("mail"));
 }
