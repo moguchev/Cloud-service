@@ -6,9 +6,6 @@
 #include <any>
 
 class DataBase {
-protected:
-    std::map<std::any, std::any> _database;
-
 public:
     virtual std::any get(const std::any& data) = 0;
     virtual void make_note(const std::any& root, const std::any& data) = 0;
