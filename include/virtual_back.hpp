@@ -15,13 +15,13 @@ public:
 
 class Command {
 public:
-    virtual bool execute(const DataBase* database) = 0;
+    virtual void execute(const DataBase* database) = 0;
     virtual ~Command() = 0;
 };
 
 class Receiver {
 public:
-    virtual bool operator()(Command* command) = 0;
+    virtual void operator()(Command* command) = 0;
     virtual ~Receiver() = 0;
 };
 
