@@ -17,7 +17,7 @@ public:
 
 class BasicResolver : public Resolver {
     virtual void handle_command(const std::string& command) {
-        /* logic */
+        auto docommand = command /* logic */
     }
 
     virtual std::string get_answer() {
@@ -38,26 +38,11 @@ class AbstractClient {
     Resolver* resolver_ = nullptr;
 };
 
-class ConsoleClient;
-
-class ConsoleClientDestroyer {
- private:
-    ConsoleClient* p_instance = nullptr;
-
- public:
-    ~ConsoleClientDestroyer() {
-         if (p_instance != nullptr)
-            delete p_instance;
-    };
-
-    void initialize(ConsoleClient* client) {
-        p_instance = client;
-    }
-};
-
 bool check_command(const std::string& command) {
     return false;
 }
+
+class ConsoleClientDestroyer;
 
 class ConsoleClient : public AbstractClient {
  public:
@@ -105,8 +90,7 @@ class ConsoleClient : public AbstractClient {
               } else
                   write_to_console("no such command");
           }
-          if (std::cin.fail())
-              read_from_console();
+          return;
       }
 
  protected:
@@ -127,6 +111,18 @@ class ConsoleClient : public AbstractClient {
       friend class ConsoleClientDestroyer;
 };
 
+class ConsoleClientDestroyer {
+ private:
+  ConsoleClient* p_instance = nullptr;
+
+ public:
+  ~ConsoleClientDestroyer() {
+    if (p_instance != nullptr) delete p_instance;
+  };
+
+  void initialize(ConsoleClient* client) { p_instance = client; }
+};
+
 class RestClient {
  public:
   virtual std::string handle_request(const std::string& request) = 0;
@@ -136,7 +132,7 @@ class RestClient {
 class BoostHTTPClient : RestClient {
 public:
     virtual std::string handle_request(const std::string& request) {
-        return "";
+        return request;
     }
     ~BoostHTTPClient() = default;
 };
