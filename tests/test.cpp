@@ -22,6 +22,7 @@ TEST(Client, CheCkRun) {
 
   client.set_resolver(resolver);
   EXPECT_NO_THROW(client.run("cloud merge"));
+  delete resolver;
 }
 
 TEST(REST, Requests) {
@@ -35,4 +36,5 @@ TEST(REST, Requests) {
   EXPECT_EQ(client_server->handle_request("POST file.txt"), "success...");
   EXPECT_EQ(client_server->handle_request("DELETE file.txt"), "success...");
   EXPECT_EQ(client_server->handle_request("PUT file.txt"), "success...");
+  delete client_server;
 }
