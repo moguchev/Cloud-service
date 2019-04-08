@@ -89,7 +89,7 @@ class ConsoleClient : public AbstractClient {
   }
 
  protected:
-  ConsoleClient(){};
+  ConsoleClient() = default;
   ConsoleClient(const ConsoleClient& rhs) = delete;
   ConsoleClient(ConsoleClient&& rhs) = delete;
   ConsoleClient& operator=(const ConsoleClient& rhs) = delete;
@@ -104,7 +104,7 @@ class ConsoleClient : public AbstractClient {
 class RestClient {
  public:
   virtual std::string handle_request(const std::string& request) = 0;
-  virtual ~RestClient(){};
+  virtual ~RestClient() = default;
 };
 
 class BoostHTTPClient : RestClient {
