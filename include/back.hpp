@@ -5,6 +5,7 @@
 
 #include "virtual_back.hpp"
 #include <unordered_map>
+#include <string>
 
 class DataBase : public AbstractDataBase {
 private:
