@@ -6,6 +6,9 @@
 #include "virtual_back.hpp"
 
 class MyDataBase : public DataBase {
+private:
+    std::map<std::any, std::any> _database;
+    
 public:
     std::any get(const std::any& data) {
         if (_database.find(data) != _database.end()) {
