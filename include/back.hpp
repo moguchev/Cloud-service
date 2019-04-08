@@ -12,7 +12,7 @@ private:
 
 
 public:
-    std::any get(const std::any& data) {
+    std::any get(const std::any& data) const {
         if (_database.find(data) != _database.end()) {
             return _database[data];
         } else {
@@ -20,7 +20,7 @@ public:
         }
     }
 
-    void make_note(const std::any& root, const std::any& data) {
+    void make_note(const std::any& root, const std::any& data) const {
         _database[root] = data;
     }
 
