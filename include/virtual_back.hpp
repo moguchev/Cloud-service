@@ -2,6 +2,7 @@
 
 #ifndef INCLUDE_VIRTUAL_BACK_HPP_
 #define INCLUDE_VIRTUAL_BACK_HPP_
+#include <string>
 
 class DataBase {
 public:
