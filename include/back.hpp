@@ -6,7 +6,7 @@
 #include "virtual_back.hpp"
 #include <unordered_map>
 
-class MyDataBase : public DataBase {
+class DataBase : public AbstractDataBase {
 private:
     std::unordered_map<std::string, std::string> _database;
 
@@ -31,12 +31,12 @@ public:
         }
     }
 
-    ~MyDataBase() override = default;
+    ~DataBase() override = default;
 };
 
-MyDataBase myDataBase;
+DataBase myDataBase;
 
-class Load : public Command {
+class Load : public AbstractCommand {
     std::string _root;
     std::string _data;
 
@@ -45,19 +45,19 @@ public:
         _root = root;
         _data = data;
     }
-    void execute(DataBase* database)  const override {
+    void execute(AbstractDataBase* database)  const override {
         database->makeNote(_root, _data);
     }
     ~Load() override = default;
 };
 
-class MyReceiver : public Receiver {
+class Receiver : public AbstractReceiver {
 public:
-    void operator()(Command* command) const override {
+    void operator()(AbstractCommand* command) const override {
         command->execute(&myDataBase);
     }
-    ~MyReceiver() override = default;
+    ~Receiver() override = default;
 };
 
-MyReceiver myReceiver;
+Receiver myReceiver;
 #endif //INCLUDE_BACK_HPP_
