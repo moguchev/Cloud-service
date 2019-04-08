@@ -1,5 +1,7 @@
-#ifndef UNTITLED4_HEADER_H
-#define UNTITLED4_HEADER_H
+// Copyright 2019 (c) <Cloud9>
+
+#ifndef INCLUDE_BACK_HPP_
+#define INCLUDE_BACK_HPP_
 
 #include "virtual_back.h"
 
@@ -8,8 +10,7 @@ public:
     std::any get(const std::any& data) {
         if (_database.find(data) != _database.end()) {
             return _database[data];
-        }
-        else {
+        } else {
             return std::make_any(nullptr);
         }
     }
@@ -21,7 +22,7 @@ public:
     void delete_note(const std::any& data) {
         auto it = _database.find(data);
 
-        if ( it != _database.end()) {
+        if (it != _database.end()) {
             _database.erase(it);
         }
     }
@@ -40,7 +41,7 @@ public:
         _root = root;
         _data = data;
     }
-    bool execute (const DataBase* database) {
+    bool execute(const DataBase* database) {
         database->make_note(_root, _data);
     }
 };
@@ -54,4 +55,4 @@ public:
 };
 
 MyReceiver myReceiver;
-#endif //UNTITLED4_HEADER_H
+#endif //INCLUDE_BACK_HPP_
