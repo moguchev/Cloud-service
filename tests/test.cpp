@@ -5,8 +5,6 @@
 
 TEST(Client, CheckLogin) {
   ConsoleClient& client = ConsoleClient::getInstance();
-  ConsoleClientDestroyer destructor;
-  destructor.initialize(&client);
 
   std::string login = "Admin";
   std::string password = "Admin";
@@ -20,9 +18,6 @@ TEST(Client, CheckLogin) {
 TEST(Client, CheCkRun) {
   auto resolver = new BasicResolver();
   ConsoleClient& client = ConsoleClient::getInstance();
-  ConsoleClientDestroyer destructor;
-  destructor.initialize(&client);
-
   EXPECT_THROW(client.run("cloud merge"), std::runtime_error);
 
   client.set_resolver(resolver);
