@@ -5,35 +5,35 @@
 
 TEST(database, good) {
     std::string root = "login";
-    std::string data = "mail";
+    Note data = std::any("mail");
 
     myDataBase.makeNote(root, data);
-    std::string answer = myDataBase.get(root);
+    Note answer = myDataBase.get(root);
 
-    EXPECT_EQ(answer, data);
+    EXPECT_EQ(std::any_cast<std::string>(answer.GetData()), std::any_cast<std::string>(data.GetData()));
 }
 
 TEST(database, bad) {
     std::string root = "login";
-    std::string data = "mail";
+    Note data = std::any("mail");
 
     myDataBase.makeNote(root, data);
-    std::string answer = myDataBase.get("logout");
+    Note answer = myDataBase.get("logout");
 
-    EXPECT_EQ(answer, std::string(""));
+    EXPECT_EQ(std::any_cast<std::string>(answer.GetData()), std::string(""));
 }
 
 TEST(database, delete_note) {
     std::string root = "login";
-    std::string data = "mail";
+    Note data = std::any("mail");
 
     myDataBase.makeNote(root, data);
-    std::string answer = myDataBase.get("login");
-    EXPECT_EQ(answer, data);
+    Note answer = myDataBase.get("login");
+    EXPECT_EQ(std::any_cast<std::string>(answer.GetData()), std::any_cast<std::string>(data.GetData()));
 
     myDataBase.deleteNote(root);
     answer = myDataBase.get("login");
-    EXPECT_EQ(answer, std::string(""));
+    EXPECT_EQ(std::any_cast<std::string>(answer.GetData()), std::string(""));
 }
 
 TEST(receiver, execute) {
@@ -41,7 +41,7 @@ TEST(receiver, execute) {
 
     myReceiver(&load);
 
-    std::string answer = myDataBase.get("login");
+    Note answer = myDataBase.get("login");
 
-    EXPECT_EQ(answer, std::string("mail"));
+    EXPECT_EQ(std::any_cast<std::string>(answer.GetData()), std::string("mail"));
 }

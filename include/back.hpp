@@ -7,25 +7,27 @@
 #include <unordered_map>
 #include <string>
 
+template <typename T>
 class DataBase : public AbstractDataBase {
 private:
-    std::unordered_map<std::string, std::string> _database;
+    T _database;
 
 public:
-    std::string get(const std::string& data) override {
-        if (_database.find(data) != _database.end()) {
-            return _database[data];
+
+    Note get(const std::string &root) override {
+        if (_database.find(root) != _database.end()) {
+            return _database[root];
         } else {
-            return "";
+            return Note();
         }
     }
 
-    void makeNote(const std::string &root, const std::string &data) override {
+    void makeNote(const std::string &root, const Note &data) override {
         _database[root] = data;
     }
 
-    void deleteNote(const std::string &data) override {
-        auto it = _database.find(data);
+    void deleteNote(const std::string &root) override {
+        auto it = _database.find(root);
 
         if (it != _database.end()) {
             _database.erase(it);
@@ -35,14 +37,14 @@ public:
     ~DataBase() override = default;
 };
 
-DataBase myDataBase;
+DataBase<std::unordered_map<std::string, Note>> myDataBase;
 
 class Load : public AbstractCommand {
     std::string _root;
-    std::string _data;
+    std::any _data;
 
 public:
-    Load(const std::string& root, const std::string& data) {
+    Load(const std::string& root, const std::any& data) {
         _root = root;
         _data = data;
     }

@@ -3,13 +3,36 @@
 #ifndef INCLUDE_VIRTUAL_BACK_HPP_
 #define INCLUDE_VIRTUAL_BACK_HPP_
 #include <string>
+#include <any>
+
+struct Note {
+    std::any data;
+
+    Note(const std::any& any = std::any( std::nullptr_t() )) : data(any) {};
+
+    Note& operator=(const std::any& any) {
+        data = any;
+
+        return *this;
+    }
+
+    Note& operator=(const Note& another) {
+        data = another;
+
+        return *this;
+    }
+
+    std::any GetData() {
+        return data;
+    }
+};
 
 class AbstractDataBase {
 public:
-    virtual std::string get(const std::string& data)  = 0;
+    virtual Note get(const std::string &root)  = 0;
     virtual void makeNote(const std::string &root,
-                          const std::string &data)  = 0;
-    virtual void deleteNote(const std::string &data) = 0;
+                          const Note &data)  = 0;
+    virtual void deleteNote(const std::string &root) = 0;
     virtual ~AbstractDataBase() = default;
 };
 
