@@ -8,7 +8,7 @@
 struct Note {
     std::any data;
 
-    Note(const std::any& any = std::any( std::nullptr_t() )) : data(any) {};
+    Note(const std::any& any = std::any(std::nullptr_t())) : data(any) {}
 
     Note& operator=(const std::any& any) {
         data = any;
