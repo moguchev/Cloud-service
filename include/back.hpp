@@ -13,7 +13,6 @@ private:
     T _database;
 
 public:
-
     Note get(const std::string &root) override {
         if (_database.find(root) != _database.end()) {
             return _database[root];
