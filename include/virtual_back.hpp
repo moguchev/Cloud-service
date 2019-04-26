@@ -18,12 +18,12 @@ struct Note {
     }
 
     Note& operator=(const Note& another) {
-        data = another;
+        data = another.data;
 
         return *this;
     }
 
-    std::any GetData() {
+    std::any& GetData() {
         return data;
     }
 };
