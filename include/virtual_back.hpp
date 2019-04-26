@@ -8,8 +8,9 @@
 struct Note {
     std::any data;
 
-    Note(const std::any& any = std::any(std::nullptr_t())) : data(any) {}
-    Note(const Note& another) : data(another.data) {}
+    explicit Note(const std::any& any = std::any(std::nullptr_t())) : data(any) {}
+    Note(const Note& another) = default;
+    Note(Note&& another) noexcept : data(std::move(another.data)) {}
 
     Note& operator=(const std::any& any) {
         data = any;
@@ -17,8 +18,10 @@ struct Note {
         return *this;
     }
 
-    Note& operator=(const Note& another) {
-        data = another.data;
+    Note& operator=(const Note& another) = default;
+
+    Note& operator=(Note&& another) noexcept {
+        data = std::move(another.data);
 
         return *this;
     }
@@ -30,7 +33,7 @@ struct Note {
 
 class AbstractDataBase {
 public:
-    virtual Note get(const std::string &root)  = 0;
+    virtual Note* get(const std::string &root)  = 0;
     virtual void makeNote(const std::string &root,
                           const Note &data)  = 0;
     virtual void deleteNote(const std::string &root) = 0;

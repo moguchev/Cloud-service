@@ -7,17 +7,21 @@
 #include <unordered_map>
 #include <string>
 
+
+std::any mergeAny(const std::any& root, const std::any& merging);
+
+
 template <typename T>
 class DataBase : public AbstractDataBase {
 private:
     T _database;
 
 public:
-    Note get(const std::string &root) override {
+    Note* get(const std::string &root) override {
         if (_database.find(root) != _database.end()) {
-            return _database[root];
+            return &_database[root];
         } else {
-            return Note();
+            return nullptr;
         }
     }
 
@@ -38,6 +42,7 @@ public:
 
 DataBase<std::unordered_map<std::string, Note>> myDataBase;
 
+
 class Load : public AbstractCommand {
     std::string _root;
     std::any _data;
@@ -48,10 +53,47 @@ public:
         _data = data;
     }
     void execute(AbstractDataBase* database)  const override {
-        database->makeNote(_root, _data);
+        database->makeNote(_root, Note(_data));
     }
     ~Load() override = default;
 };
+
+class Merge : public AbstractCommand {
+    std::string _root;
+    std::string _merging;
+
+public:
+    Merge(const std::string& root, const std::string& merging) {
+        _root = root;
+        _merging = merging;
+    }
+    void execute(AbstractDataBase* database)  const override {
+        Note* root = database->get(_root);
+        Note* merging = database->get(_merging);
+
+        std::any mergedAny = mergeAny(root->GetData(), merging->GetData());
+        Note newNote = Note(mergedAny);
+
+        root->data = newNote.data;
+    }
+
+    ~Merge() override = default;
+};
+
+class Delete : public AbstractCommand {
+    std::string _root;
+
+public:
+    explicit Delete(const std::string& root) {
+        _root = root;
+    }
+    void execute(AbstractDataBase* database)  const override {
+        database->deleteNote(_root);
+    }
+
+    ~Delete() override = default;
+};
+
 
 class Receiver : public AbstractReceiver {
 public:
