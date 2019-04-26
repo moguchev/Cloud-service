@@ -7,9 +7,7 @@
 #include <unordered_map>
 #include <string>
 
-
 std::any mergeAny(const std::any& root, const std::any& merging);
-
 
 template <typename T>
 class DataBase : public AbstractDataBase {
@@ -41,7 +39,6 @@ public:
 };
 
 DataBase<std::unordered_map<std::string, Note>> myDataBase;
-
 
 class Load : public AbstractCommand {
     std::string _root;
@@ -93,7 +90,6 @@ public:
 
     ~Delete() override = default;
 };
-
 
 class Receiver : public AbstractReceiver {
 public:

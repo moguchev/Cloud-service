@@ -8,7 +8,8 @@
 struct Note {
     std::any data;
 
-    explicit Note(const std::any& any = std::any(std::nullptr_t())) : data(any) {}
+    explicit Note(const std::any& any = std::any(std::nullptr_t()))
+                    : data(any) {}
     Note(const Note& another) = default;
     Note(Note&& another) noexcept : data(std::move(another.data)) {}
 
