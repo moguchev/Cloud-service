@@ -23,8 +23,7 @@ TEST(database, bad) {
     myDataBase.makeNote(root, data);
     Note* answer = myDataBase.get("logout");
 
-    EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
-              std::string(""));
+    EXPECT_EQ(answer->GetData(), nullptr);
 }
 
 TEST(database, delete_note) {
@@ -39,8 +38,7 @@ TEST(database, delete_note) {
 
     myDataBase.deleteNote(root);
     answer = myDataBase.get("login");
-    EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
-              std::string(""));
+    EXPECT_EQ(answer->GetData(), nullptr);
 }
 
 TEST(receiver, execute) {
