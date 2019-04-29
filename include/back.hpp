@@ -8,17 +8,7 @@
 #include <string>
 
 std::any mergeAny(const std::any& root, const std::any& merging) {
-    try {
-        std::any_cast<std::string>(root);
-        return std::any(std::any_cast<std::string>(root) + std::any_cast<std::string>(merging));
-    }
-    catch(...) {
-        std::unordered_map map1 = std::any_cast<std::unordered_map>(root);
-        std::unordered_map map2 = std::any_cast<std::unordered_map>(merging);
-
-        map1 = map2;
-        return std::any(map1);
-    }
+    return std::any(std::any_cast<std::string>(root) + std::any_cast<std::string>(merging));
 }
 
 template <typename T>
