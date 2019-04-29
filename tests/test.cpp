@@ -21,7 +21,7 @@ TEST(database, bad) {
     data = std::any(std::string("mail"));
 
     myDataBase.makeNote(root, data);
-    Note* answer = myDataBase.get(std::string("logout"));
+    Note* answer = myDataBase.get("logout");
 
     EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
               std::string(""));
@@ -33,12 +33,12 @@ TEST(database, delete_note) {
     data = std::any(std::string("mail"));
 
     myDataBase.makeNote(root, data);
-    Note* answer = myDataBase.get(std::string("login"));
+    Note* answer = myDataBase.get("login");
     EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
               std::any_cast<std::string>(data.GetData()));
 
     myDataBase.deleteNote(root);
-    answer = myDataBase.get(std::string("login"));
+    answer = myDataBase.get("login");
     EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
               std::string(""));
 }
@@ -48,7 +48,7 @@ TEST(receiver, execute) {
 
     myReceiver(&load);
 
-    Note* answer = myDataBase.get(std::string("login"));
+    Note* answer = myDataBase.get("login");
 
     EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
               std::string("mail"));
