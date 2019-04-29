@@ -12,9 +12,16 @@ struct Note {
                     : data(any) {}
     Note(const Note& another) = default;
     Note(Note&& another) noexcept : data(std::move(another.data)) {}
+    explicit Note(std::any&& any) : data(std::move(any)) {}
 
     Note& operator=(const std::any& any) {
         data = any;
+
+        return *this;
+    }
+
+    Note& operator=(std::any&& any) {
+        data = std::move(any);
 
         return *this;
     }

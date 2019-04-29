@@ -5,7 +5,9 @@
 
 TEST(database, good) {
     std::string root = "login";
-    Note data(std::any("mail"));
+    //Note data("mail");
+    Note data;
+    data = std::any("mail");
 
     myDataBase.makeNote(root, data);
     Note* answer = myDataBase.get(root);
@@ -16,7 +18,8 @@ TEST(database, good) {
 
 TEST(database, bad) {
     std::string root = "login";
-    Note data(std::any("mail"));
+    Note data;
+    data = std::any("mail");
 
     myDataBase.makeNote(root, data);
     Note* answer = myDataBase.get("logout");
@@ -27,7 +30,8 @@ TEST(database, bad) {
 
 TEST(database, delete_note) {
     std::string root = "login";
-    Note data(std::any("mail"));
+    Note data;
+    data = std::any("mail");
 
     myDataBase.makeNote(root, data);
     Note* answer = myDataBase.get("login");
