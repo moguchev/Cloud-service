@@ -74,3 +74,28 @@ TEST(database, change) {
     EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
               std::string("c++"));
 }
+
+TEST(database, merge) {
+    std::string root = std::string("login");
+    Note data;
+    data = std::any(std::string("mail"));
+
+    std::string merging = std::string("login2");
+    Note data2;
+    data2 = std::any(std::string("c++"));
+
+    myDataBase.makeNote(merging, data2);
+
+    Merge merge(root, merging);
+
+    myReceiver(&merge);
+
+    Note* answer = myDataBase.get("login");
+
+    EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
+              std::string("loginc++"));
+
+    answer = myDataBase.get("login2");
+
+    EXPECT_EQ(answer, nullptr);
+}

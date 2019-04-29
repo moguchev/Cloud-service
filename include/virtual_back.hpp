@@ -14,7 +14,7 @@ struct Note {
         data = another.data;
     }
     Note(Note&& another) noexcept : data(std::move(another.data)) {}
-    //explicit Note(std::any&& any) : data(std::move(any)) {}
+    explicit Note(std::any&& any) : data(std::move(any)) {}
 
     Note& operator=(const std::any& any) {
         data = any;
@@ -22,16 +22,13 @@ struct Note {
         return *this;
     }
 
-    /*Note& operator=(std::any&& any) {
+    Note& operator=(std::any&& any) {
         data = std::move(any);
 
         return *this;
-    }*/
-
-    Note& operator=(const Note& another) {
-        data = another.data;
-        return *this;
     }
+
+    Note& operator=(const Note& another) = default;
 
     Note& operator=(Note&& another) noexcept {
         data = std::move(another.data);
