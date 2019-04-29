@@ -72,6 +72,7 @@ public:
         Note newNote = Note(mergedAny);
 
         root->data = newNote.data;
+        database->deleteNote(_merging);
     }
 
     ~Merge() override = default;
@@ -89,6 +90,22 @@ public:
     }
 
     ~Delete() override = default;
+};
+
+class Change : public AbstractCommand {
+    std::string _root;
+    std::any _data;
+
+public:
+    Change(const std::string& root, const std::any& data) {
+        _root = root;
+        _data = data;
+    }
+    void execute(AbstractDataBase* database)  const override {
+        Note* note = database->get(_root);
+        note->data = _data;
+    }
+    ~Change() override = default;
 };
 
 class Receiver : public AbstractReceiver {
