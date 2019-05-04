@@ -108,7 +108,7 @@ TEST(database, merge_with_map) {
     std::unordered_map<std::string, std::any> rootMap = {
             {"login", std::any("person")},
             {"data", std::any("someData")},
-            {"id", std::any(5)}
+            {"id", std::any(int(5))}
     };
     data = std::any(rootMap);
 
