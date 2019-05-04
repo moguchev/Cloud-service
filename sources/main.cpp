@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 #include <iostream>
+#include <string>
+#include <sstream> 
 #include "ConsoleClient.hpp"
+
 
 int main() {
     _CrtMemState _ms;
@@ -15,6 +18,8 @@ int main() {
         client.RunCommand("createaccount");
     }
     _CrtMemDumpAllObjectsSince(&_ms);
+
+    
     system("pause");
     return 0;
 }

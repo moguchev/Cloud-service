@@ -3,13 +3,14 @@
 #include <vector>
 #include "AbstractClient.hpp"
 #include "Commands.hpp"
+#include "Permission.hpp"
 
 UserData* registration(std::istream& in, std::ostream& out);
 
 class CreateAccountPermission : public Permission {
 public:
     CreateAccountPermission() = delete;
-    virtual ~CreateAccountPermission() {};
+    virtual ~CreateAccountPermission() = default;
 
     CreateAccountPermission(std::istream& in, std::ostream& out)
         : istream_(&in)
@@ -17,26 +18,28 @@ public:
     {}
 
     virtual bool CanHandle(const std::string& com) {
-        if (com.find(cmd::CREATE_ACCOUNT) != std::string::npos)
+        if (com == cmd::CREATE_ACCOUNT)
             return true;
         return false;
     }
 
-    virtual std::string Handle(const std::string& com) {
-        if (!CanHandle(com)) {
-            *ostream_ << "no rights" << std::endl;
-            return "no rights";
-        }
+    virtual std::string Handle(const std::vector<std::string>& args) {
         auto userData = registration(*istream_, *ostream_);
         std::vector<std::string> body = { userData->username, userData->mail, userData->password };
         // auto status = sendPostRequest(body);
+        /* while (!status) {
+            *ostream_ << status.what() << std::endl;
+            userdata = registration(*istream_, *ostream_);
+            std::vector<std::string> body = { userdata->username, userdata->mail, userdata->password };
+            status = sendpostrequest(body);
+        }*/
+
         // if success
         if (rightOwner_ != nullptr) {
             rightOwner_->SetProfile(*userData);
             rightOwner_->ExpandPermissions();
         }
         delete userData;
-        *ostream_ << "success" << std::endl;
         return "success";
     }
 

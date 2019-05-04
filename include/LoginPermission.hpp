@@ -2,6 +2,7 @@
 #include <iostream>
 #include "AbstractClient.hpp"
 #include "Commands.hpp"
+#include "Permission.hpp"
 
 
 UserData* logining(std::istream& in, std::ostream& out);
@@ -9,8 +10,7 @@ UserData* logining(std::istream& in, std::ostream& out);
 class LoginPermission : public Permission {
 public:
     LoginPermission() = delete;
-    virtual ~LoginPermission() {
-    };
+    virtual ~LoginPermission() = default;
 
     LoginPermission(std::istream& in, std::ostream& out)
         : istream_(&in)
@@ -18,22 +18,19 @@ public:
     {}
 
     virtual bool CanHandle(const std::string& com) {
-        if (com.find(cmd::LOGIN) != std::string::npos)
+        if (com == cmd::LOGIN)
             return true;
         return false;
     }
 
-    virtual std::string Handle(const std::string& com) {
-        if (!CanHandle(com)) {
-            *ostream_ << "no rights" << std::endl;
-            return "no rights";
-        }
-
+    virtual std::string Handle(const std::vector<std::string>& args) {
+        
         auto userData = logining(*istream_, *ostream_);
-        rightOwner_->SetProfile(*userData);
-        rightOwner_->ExpandPermissions();
+        if (rightOwner_ != nullptr) {
+            rightOwner_->SetProfile(*userData);
+            rightOwner_->ExpandPermissions();
+        }
         delete userData;
-
         return "success";
     }
 

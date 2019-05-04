@@ -7,9 +7,12 @@
 #include "AbstractClient.hpp"
 #include "CreateAccountPermission.hpp"
 #include "LoginPermission.hpp"
+#include "DownloadPermission.hpp"
 
 permissions_t BasicPermissions() {
-    permissions_t permissions;
+    permissions_t permissions = {
+        new DownloadPermission /*, new UploadPermission, new MergePermission, new DeleteFilesPermission */
+    };
     return  permissions;
 }
 
@@ -39,9 +42,26 @@ public:
     }
 
     virtual void RunCommand(const std::string& com) {
+        
+        cmd::CommandParser command;
+        if (!command.parse(com)) {
+            // help window with commands
+            return;
+        }
+
+        bool action = false;
         for (auto& p : permissions_) {
-            if (p->CanHandle(com))
-                p->Handle(com);
+            if (p->CanHandle(command.GetCommand())) {
+                auto status = p->Handle(command.GetArgs());
+                std::cout << status << std::endl;
+                action = true;
+                break;
+            } 
+        }
+
+        if (!action) {
+            // help window with permissions
+            return;
         }
     }
 
