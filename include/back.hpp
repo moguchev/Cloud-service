@@ -119,7 +119,7 @@ public:
     }
     void execute(AbstractDataBase* database)  const override {
         Note* note = database->get(_root);
-        note->data = _data;
+        note->data = mergeAny(note->data, _data);
     }
     ~Change() override = default;
 };

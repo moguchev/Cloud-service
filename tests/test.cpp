@@ -54,7 +54,7 @@ TEST(receiver, execute) {
               std::string("mail"));
 }
 
-TEST(database, change) {
+TEST(database, change_with_string) {
     std::string root = std::string("login");
     Note data;
     data = std::any(std::string("mail"));
@@ -73,6 +73,58 @@ TEST(database, change) {
 
     EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
               std::string("c++"));
+}
+
+TEST(database, change_with_map) {
+    std::string root = std::string("login");
+    Note data;
+    std::unordered_map<std::string, std::any> rootMap = {
+            {std::string("login"), std::any(std::string("person"))},
+            {std::string("data"), std::any(std::string("someData"))},
+    };
+    data = std::any(rootMap);
+
+    myDataBase.makeNote(root, data);
+
+    std::string merging = std::string("login2");
+    Note data2;
+    std::unordered_map<std::string, std::any> mergingMap = {
+            {std::string("data"), std::any(std::string("someAnotherData"))},
+    };
+    data2 = std::any(mergingMap);
+
+    myDataBase.makeNote(merging, data2);
+
+    Merge merge(root, merging);
+
+    myReceiver(&merge);
+
+    Note* answer = myDataBase.get("login");
+    auto answerMap =
+            std::any_cast<std::unordered_map<std::string,
+                    std::any>>(answer->GetData());
+    std::unordered_map<std::string, std::any> trueMap = {
+            {std::string("login"), std::any(std::string("person"))},
+            {std::string("data"), std::any(std::string("someAnotherData"))},
+    };
+    bool status = false;
+
+    if (answerMap.size() == trueMap.size() + 1) {
+        status = true;
+        for (auto& elem : trueMap) {
+            if (std::any_cast<std::string>(elem.second) !=
+                std::any_cast<std::string>(answerMap[elem.first])) {
+                status = false;
+                break;
+            }
+        }
+    }
+
+    EXPECT_EQ(status, true);
+
+    answer = myDataBase.get("login2");
+
+    EXPECT_EQ(answer, nullptr);
 }
 
 TEST(database, merge_with_string) {
