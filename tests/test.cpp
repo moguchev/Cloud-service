@@ -129,15 +129,29 @@ TEST(database, merge_with_map) {
     myReceiver(&merge);
 
     Note* answer = myDataBase.get("login");
-    std::unordered_map<std::string, std::any> answerMap = {
+    auto answerMap = std::any_cast<std::unordered_map<std::string, std::any>>(answer->GetData());
+    std::unordered_map<std::string, std::any> trueMap = {
             {"login", std::any("person")},
             {"data", std::any("someAnotherData")},
-            {"id", std::any(5)},
             {"studying", std::any("university")}
     };
+    bool status = true;
 
-    EXPECT_EQ(std::any_cast<std::string>(answer->GetData()),
-              answerMap);
+    if (answerMap.size() == trueMap.size() + 1) {
+        for (auto& elem : trueMap) {
+            if(std::any_cast<std::string>(elem.second) !=
+                    std::any_cast<std::string>(answerMap[elem.first])) {
+                status = false;
+                break;
+            }
+        }
+        if (status == true &&
+                std::any_cast<int>(answerMap["id"]) != 5) {
+            status = false;
+        }
+    }
+
+    EXPECT_EQ(status, true);
 
     answer = myDataBase.get("login2");
 

@@ -9,8 +9,10 @@
 
 std::any mergeAny(const std::any& root, const std::any& merging) {
     try {
-        std::unordered_map<std::string, std::any> mapOfRoot = std::any_cast<std::unordered_map<std::string, std::any>>(root);
-        std::unordered_map<std::string, std::any> mapOfMerging = std::any_cast<std::unordered_map<std::string, std::any>>(merging);
+        std::unordered_map<std::string, std::any> mapOfRoot =
+                std::any_cast<std::unordered_map<std::string, std::any>>(root);
+        std::unordered_map<std::string, std::any> mapOfMerging =
+                std::any_cast<std::unordered_map<std::string, std::any>>(merging);
 
         for (auto& elem : mapOfMerging) {
             mapOfRoot[elem.first] = elem.second;
