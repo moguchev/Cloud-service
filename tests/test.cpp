@@ -109,7 +109,7 @@ TEST(database, change_with_map) {
     };
     bool status = false;
 
-    if (answerMap.size() == trueMap.size() + 1) {
+    if (answerMap.size() == trueMap.size()) {
         status = true;
         for (auto& elem : trueMap) {
             if (std::any_cast<std::string>(elem.second) !=
