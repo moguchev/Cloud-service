@@ -106,9 +106,9 @@ TEST(database, merge_with_map) {
     std::string root = std::string("login");
     Note data;
     std::unordered_map<std::string, std::any> rootMap = {
-            {"login", std::any("person")},
-            {"data", std::any("someData")},
-            {"id", std::any(int(5))}
+            {std::string("login"), std::any(std::string("person"))},
+            {std::string("data"), std::any(std::string("someData"))},
+            {std::string("id"), std::any(static_cast<int>(5))}
     };
     data = std::any(rootMap);
 
@@ -117,8 +117,8 @@ TEST(database, merge_with_map) {
     std::string merging = std::string("login2");
     Note data2;
     std::unordered_map<std::string, std::any> mergingMap = {
-            {"data", std::any("someAnotherData")},
-            {"studying", std::any("university")}
+            {std::string("data"), std::any(std::string("someAnotherData"))},
+            {std::string("studying"), std::any(std::string("university"))}
     };
     data2 = std::any(mergingMap);
 
@@ -129,17 +129,18 @@ TEST(database, merge_with_map) {
     myReceiver(&merge);
 
     Note* answer = myDataBase.get("login");
-    auto answerMap = std::any_cast<std::unordered_map<std::string, std::any>>(answer->GetData());
+    auto answerMap =
+            std::any_cast<std::unordered_map<std::string, std::any>>(answer->GetData());
     std::unordered_map<std::string, std::any> trueMap = {
-            {"login", std::any("person")},
-            {"data", std::any("someAnotherData")},
-            {"studying", std::any("university")}
+            {std::string("login"), std::any(std::string("person"))},
+            {std::string("data"), std::any(std::string("someAnotherData"))},
+            {std::string("studying"), std::any(std::string("university"))}
     };
     bool status = true;
 
     if (answerMap.size() == trueMap.size() + 1) {
         for (auto& elem : trueMap) {
-            if(std::any_cast<std::string>(elem.second) !=
+            if (std::any_cast<std::string>(elem.second) !=
                     std::any_cast<std::string>(answerMap[elem.first])) {
                 status = false;
                 break;
