@@ -8,7 +8,19 @@
 #include <string>
 
 std::any mergeAny(const std::any& root, const std::any& merging) {
-    return std::any(std::any_cast<std::string>(root) + std::any_cast<std::string>(merging));
+    try {
+        std::unordered_map<std::string, std::any> mapOfRoot = std::any_cast<std::unordered_map<std::string, std::any>>(root);
+        std::unordered_map<std::string, std::any> mapOfMerging = std::any_cast<std::unordered_map<std::string, std::any>>(merging);
+
+        for (auto& elem : mapOfMerging) {
+            mapOfRoot[elem.first] = elem.second;
+        }
+
+        return std::any(mapOfRoot);
+    }
+    catch (...) {
+        return std::any(std::any_cast<std::string>(merging));
+    }
 }
 
 template <typename T>
@@ -71,9 +83,8 @@ public:
         Note* merging = database->get(_merging);
 
         std::any mergedAny = mergeAny(root->GetData(), merging->GetData());
-        Note newNote = Note(mergedAny);
 
-        root->data = newNote.data;
+        root->data = mergedAny;
         database->deleteNote(_merging);
     }
 
