@@ -130,15 +130,17 @@ TEST(database, merge_with_map) {
 
     Note* answer = myDataBase.get("login");
     auto answerMap =
-            std::any_cast<std::unordered_map<std::string, std::any>>(answer->GetData());
+            std::any_cast<std::unordered_map<std::string,
+            std::any>>(answer->GetData());
     std::unordered_map<std::string, std::any> trueMap = {
             {std::string("login"), std::any(std::string("person"))},
             {std::string("data"), std::any(std::string("someAnotherData"))},
             {std::string("studying"), std::any(std::string("university"))}
     };
-    bool status = true;
+    bool status = false;
 
     if (answerMap.size() == trueMap.size() + 1) {
+        status = true;
         for (auto& elem : trueMap) {
             if (std::any_cast<std::string>(elem.second) !=
                     std::any_cast<std::string>(answerMap[elem.first])) {

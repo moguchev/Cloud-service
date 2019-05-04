@@ -12,7 +12,8 @@ std::any mergeAny(const std::any& root, const std::any& merging) {
         auto mapOfRoot =
                 std::any_cast<std::unordered_map<std::string, std::any>>(root);
         auto mapOfMerging =
-                std::any_cast<std::unordered_map<std::string, std::any>>(merging);
+                std::any_cast<std::unordered_map<std::string,
+                std::any>>(merging);
 
         for (auto& elem : mapOfMerging) {
             mapOfRoot[elem.first] = elem.second;
