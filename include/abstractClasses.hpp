@@ -49,7 +49,9 @@ public:
 class AbstractController {
 public:
     virtual bool execute_command() = 0;
-    virtual void set_command(AbstractControllerCommand* command) = 0;
+    virtual AbstractControllerCommand* set_command(std::string& commandName,
+            std::string & login,
+            std::string& password) = 0;
     virtual ~AbstractController() = default;
 };
 

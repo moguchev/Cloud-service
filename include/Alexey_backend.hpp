@@ -28,4 +28,6 @@ public:
     virtual ~AbstractReceiver() = default;
 };
 
-
+class Receiver : AbstractReceiver{
+    void operator()(AbstractCommand* command) const override ;
+};
