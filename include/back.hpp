@@ -69,6 +69,7 @@ public:
     void execute(AbstractDataBase* database) override {
         database->makeNote(_root, Note(_data));
     }
+    bool Success() override {};
     ~Load() override = default;
 };
 
@@ -91,6 +92,8 @@ public:
         database->deleteNote(_merging);
     }
 
+    bool Success() override {};
+
     ~Merge() override = default;
 };
 
@@ -104,6 +107,7 @@ public:
     void execute(AbstractDataBase* database) override {
         database->deleteNote(_root);
     }
+    bool Success() override {};
 
     ~Delete() override = default;
 };
@@ -121,6 +125,7 @@ public:
         Note* note = database->get(_root);
         note->data = mergeAny(note->data, _data);
     }
+    bool Success() override {};
     ~Change() override = default;
 };
 
@@ -156,7 +161,7 @@ class FindUser : public AbstractCommand {
     bool _success;
 
 public:
-    FindUser(const std::string& login) : _success(false) {
+    explicit FindUser(const std::string& login) : _success(false) {
         _login = login;
     }
     void execute(AbstractDataBase* database) override {

@@ -225,8 +225,8 @@ TEST(database, good_check_user) {
     myDataBase.makeNote(login, data);
 
     CheckUser checkUser("login", "c++");
-    myReceiver(&checkUser);
-    bool success = checkUser.Success();
+    bool success = false;
+    myReceiver(&checkUser, success);
 
     EXPECT_EQ(success, true);
 }
@@ -243,8 +243,9 @@ TEST(database, bad_check_user) {
     myDataBase.makeNote(login, data);
 
     CheckUser checkUser("login", "python");
-    myReceiver(&checkUser);
-    bool success = checkUser.Success();
+
+    bool success = false;
+    myReceiver(&checkUser, success);
 
     EXPECT_EQ(success, false);
 }
@@ -256,8 +257,9 @@ TEST(database, good_find_user) {
     myDataBase.makeNote(login, data);
 
     FindUser findUser("login");
-    myReceiver(&findUser);
-    bool success = findUser.Success();
+
+    bool success = false;
+    myReceiver(&findUser, success);
 
     EXPECT_EQ(success, true);
 }
@@ -269,8 +271,9 @@ TEST(database, bad_find_user) {
     myDataBase.makeNote(login, data);
 
     FindUser findUser("badlogin");
-    myReceiver(&findUser);
-    bool success = findUser.Success();
+
+    bool success = false;
+    myReceiver(&findUser, success);
 
     EXPECT_EQ(success, false);
 }
