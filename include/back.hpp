@@ -69,7 +69,9 @@ public:
     void execute(AbstractDataBase* database) override {
         database->makeNote(_root, Note(_data));
     }
-    bool Success() override {};
+    bool Success() override {
+        return true;
+    };
     ~Load() override = default;
 };
 
@@ -92,7 +94,9 @@ public:
         database->deleteNote(_merging);
     }
 
-    bool Success() override {};
+    bool Success() override {
+        return true;
+    }
 
     ~Merge() override = default;
 };
@@ -107,7 +111,9 @@ public:
     void execute(AbstractDataBase* database) override {
         database->deleteNote(_root);
     }
-    bool Success() override {};
+    bool Success() override {
+        return true;
+    }
 
     ~Delete() override = default;
 };
@@ -125,7 +131,11 @@ public:
         Note* note = database->get(_root);
         note->data = mergeAny(note->data, _data);
     }
-    bool Success() override {};
+
+    bool Success() override {
+        return true;
+    }
+
     ~Change() override = default;
 };
 
