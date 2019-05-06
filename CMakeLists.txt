@@ -33,6 +33,11 @@ find_package(Boost CONFIG REQUIRED thread filesystem system)
 add_library(template STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/ClientHTTPS.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/Commands.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/ConsoleClient.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/CreateAccountPermission.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/DownloadPermission.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/LoginPermission.cpp
 )
 
 add_executable(tests
@@ -53,7 +58,7 @@ target_link_libraries(tests
 	PUBLIC
 	GTest::main
 	Boost::system
-  	Boost::thread
+  Boost::thread
 	Boost::filesystem
 	OpenSSL::SSL
 	OpenSSL::Crypto

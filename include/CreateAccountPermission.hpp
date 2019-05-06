@@ -1,4 +1,6 @@
-#pragma once
+// Copyright 2019 (c) <Cloud9>
+#ifndef CREATEACCOUNTPERMISSION_HPP
+#define CREATEACCOUNTPERMISSION_HPP
 #include <iostream>
 #include <vector>
 #include "AbstractClient.hpp"
@@ -17,31 +19,9 @@ public:
         , ostream_(&out)
     {}
 
-    virtual bool CanHandle(const std::string& com) {
-        if (com == cmd::CREATE_ACCOUNT)
-            return true;
-        return false;
-    }
+    virtual bool CanHandle(const std::string& com);
 
-    virtual std::string Handle(const std::vector<std::string>& args) {
-        auto userData = registration(*istream_, *ostream_);
-        std::vector<std::string> body = { userData->username, userData->mail, userData->password };
-        // auto status = sendPostRequest(body);
-        /* while (!status) {
-            *ostream_ << status.what() << std::endl;
-            userdata = registration(*istream_, *ostream_);
-            std::vector<std::string> body = { userdata->username, userdata->mail, userdata->password };
-            status = sendpostrequest(body);
-        }*/
-
-        // if success
-        if (rightOwner_ != nullptr) {
-            rightOwner_->SetProfile(*userData);
-            rightOwner_->ExpandPermissions();
-        }
-        delete userData;
-        return "success";
-    }
+    virtual std::string Handle(const std::vector<std::string>& args);
 
     virtual void SetOwner(AbstractClient* client) {
         rightOwner_ = client;
@@ -53,23 +33,4 @@ private:
     std::ostream* ostream_;
 };
 
-UserData* registration(std::istream& in, std::ostream& out) {
-    auto user = new UserData;
-    out << "Enter your username: ";
-    in >> user->username;
-    out << "Enter your email: ";
-    in >> user->mail;
-    // email checker
-    // ...
-    // 
-    std::string password;
-    do {
-        out << "Enter your password: ";
-        in >> user->password;
-        out << "Enter your password again: ";
-        in >> password;
-        if (password != user->password)
-            out << "Passwords do not match! ";
-    } while (password != user->password);
-    return  user;
-}
+#endif  // CREATEACCOUNTPERMISSION_HPP

@@ -1,1 +1,3 @@
-#pragma once
+#ifndef UPLOADPERMISSION_HPP
+#define UPLOADPERMISSION_HPP
+#endif  // UPLOADPERMISSION_HPP

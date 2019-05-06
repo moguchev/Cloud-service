@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-
-#pragma once
+#ifndef CONSOLECLIENT_HPP
+#define CONSOLECLIENT_HPP
 #include <list>
 #include <string>
 #include "Commands.hpp"
@@ -9,76 +9,26 @@
 #include "LoginPermission.hpp"
 #include "DownloadPermission.hpp"
 
-permissions_t BasicPermissions() {
-    permissions_t permissions = {
-        new DownloadPermission /*, new UploadPermission, new MergePermission, new DeleteFilesPermission */
-    };
-    return  permissions;
-}
+permissions_t BasicPermissions();
 
 class ConsoleClient : public AbstractClient {
 public:
     ConsoleClient() = default;
 
-    ConsoleClient(permissions_t&& permissions) {
-        permissions_ = std::move(permissions);
-        for (auto p : permissions_) {
-            p->SetOwner(this);
-        }
-    }
+    ConsoleClient(permissions_t&& permissions);
 
-    ConsoleClient(const permissions_t& permissions) {
-        permissions_ = permissions;
-        for (auto p : permissions_) {
-            p->SetOwner(this);
-        }
-    }
+    ConsoleClient(const permissions_t& permissions);
 
-    static ConsoleClient CreateDefault() {
-        permissions_t permissions;
-        permissions.push_back(new CreateAccountPermission(std::cin, std::cout));
-        permissions.push_back(new LoginPermission(std::cin, std::cout));
-        return ConsoleClient(std::move(permissions));
-    }
+    static ConsoleClient CreateDefault();
 
-    virtual void RunCommand(const std::string& com) {
-        
-        cmd::CommandParser command;
-        if (!command.parse(com)) {
-            // help window with commands
-            return;
-        }
+    virtual void RunCommand(const std::string& com);
 
-        bool action = false;
-        for (auto& p : permissions_) {
-            if (p->CanHandle(command.GetCommand())) {
-                auto status = p->Handle(command.GetArgs());
-                std::cout << status << std::endl;
-                action = true;
-                break;
-            } 
-        }
+    virtual void SetProfile(const UserData& profile);
 
-        if (!action) {
-            // help window with permissions
-            return;
-        }
-    }
-
-    virtual void SetProfile(const UserData& profile) {
-        user_ = profile;
-    }
-
-    virtual void ExpandPermissions() {
-        auto newps = BasicPermissions();
-        permissions_.insert(permissions_.end(), newps.begin(), newps.end());
-    }
+    virtual void ExpandPermissions();
 
 private:
     UserData user_;
 };
 
-// сообщение (обмен
-// парсеры
-// Протокол HTTPS
-// 
+#endif  // CONSOLECLIENT_HPP

@@ -1,4 +1,6 @@
-#pragma once
+// Copyright 2019 (c) <Cloud9>
+#ifndef DOWNLOADPERMISSION_HPP
+#define DOWNLOADPERMISSION_HPP
 #include <iostream>
 #include "AbstractClient.hpp"
 #include "Commands.hpp"
@@ -9,28 +11,18 @@ public:
     DownloadPermission() = default;
     virtual ~DownloadPermission() = default;
 
-    DownloadPermission(std::istream& in, std::ostream& out)
-        : istream_(&in)
-        , ostream_(&out)
-    {}
+    DownloadPermission(std::istream& in, std::ostream& out);
 
-    virtual bool CanHandle(const std::string& com) {
-        if (com == cmd::DOWNLOAD)
-            return true;
-        return false;
-    }
+    virtual bool CanHandle(const std::string& com);
 
-    virtual std::string Handle(const std::vector<std::string>& args) {
-        
-        return "success";
-    }
+    virtual std::string Handle(const std::vector<std::string>& args);
 
-    virtual void SetOwner(AbstractClient* client) {
-        rightOwner_ = client;
-    }
+    virtual void SetOwner(AbstractClient* client);
 protected:
     AbstractClient* rightOwner_;
 private:
     std::istream* istream_;
     std::ostream* ostream_;
 };
+
+#endif  // DOWNLOADPERMISSION_HPP

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PERMISSION_HPP
+#define PERMISSION_HPP
 #include <string>
 
 class AbstractClient;
@@ -11,3 +12,5 @@ public:
     virtual void SetOwner(AbstractClient* client) = 0;
     virtual ~Permission() = default;
 };
+
+#endif  // PERMISSION_HPP

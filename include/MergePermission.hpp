@@ -1,1 +1,3 @@
-#pragma once
+#ifndef MERGEPERMISSION_HPP
+#define MERGEPERMISSION_HPP
+#endif  // MERGEPERMISSION_HPP

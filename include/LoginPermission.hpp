@@ -1,4 +1,6 @@
-#pragma once
+// Copyright 2019 (c) <Cloud9>
+#ifndef LOGINPERMISSION_HPP
+#define LOGINPERMISSION_HPP
 #include <iostream>
 #include "AbstractClient.hpp"
 #include "Commands.hpp"
@@ -12,31 +14,13 @@ public:
     LoginPermission() = delete;
     virtual ~LoginPermission() = default;
 
-    LoginPermission(std::istream& in, std::ostream& out)
-        : istream_(&in)
-        , ostream_(&out)
-    {}
+    LoginPermission(std::istream& in, std::ostream& out);
 
-    virtual bool CanHandle(const std::string& com) {
-        if (com == cmd::LOGIN)
-            return true;
-        return false;
-    }
+    virtual bool CanHandle(const std::string& com);
 
-    virtual std::string Handle(const std::vector<std::string>& args) {
-        
-        auto userData = logining(*istream_, *ostream_);
-        if (rightOwner_ != nullptr) {
-            rightOwner_->SetProfile(*userData);
-            rightOwner_->ExpandPermissions();
-        }
-        delete userData;
-        return "success";
-    }
+    virtual std::string Handle(const std::vector<std::string>& args);
 
-    virtual void SetOwner(AbstractClient* client) {
-        rightOwner_ = client;
-    }
+    virtual void SetOwner(AbstractClient* client);
 protected:
     AbstractClient* rightOwner_;
 private:
@@ -44,13 +28,4 @@ private:
     std::ostream* ostream_;
 };
 
-UserData* logining(std::istream& in, std::ostream& out) {
-    auto user = new UserData;
-    out << "Enter your login: ";
-    in >> user->mail;
-    out << "Enter your password: ";
-    std::string password;
-    in >> password;
-    user->password = password;
-    return user;
-}
+#endif  // LOGINPERMISSION_HPP

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ABSTRACTCLIENT_HPP
+#define ABSTRACTCLIENT_HPP
 #include <list>
 #include "Permission.hpp"
 
@@ -24,3 +25,5 @@ public:
 protected:
     permissions_t permissions_;
 };
+
+#endif  // ABSTRACTCLIENT_HPP
