@@ -52,7 +52,8 @@ public:
 
 class AbstractCommand {
 public:
-    virtual void execute(AbstractDataBase* database) const = 0;
+    virtual void execute(AbstractDataBase* database) = 0;
+    virtual bool Success() = 0;
     virtual ~AbstractCommand() = default;
 };
 

@@ -212,3 +212,65 @@ TEST(database, merge_with_map) {
 
     EXPECT_EQ(answer, nullptr);
 }
+
+TEST(database, good_check_user) {
+    std::string login = std::string("login");
+    Note data;
+    std::unordered_map<std::string, std::any> map = {
+            {std::string("login"), std::any(std::string("login"))},
+            {std::string("password"), std::any(std::string("c++"))}
+    };
+    data = std::any(map);
+
+    myDataBase.makeNote(login, data);
+
+    CheckUser checkUser("login", "c++");
+    myReceiver(&checkUser);
+    bool success = checkUser.Success();
+
+    EXPECT_EQ(success, true);
+}
+
+TEST(database, bad_check_user) {
+    std::string login = std::string("login");
+    Note data;
+    std::unordered_map<std::string, std::any> map = {
+            {std::string("login"), std::any(std::string("login"))},
+            {std::string("password"), std::any(std::string("c++"))}
+    };
+    data = std::any(map);
+
+    myDataBase.makeNote(login, data);
+
+    CheckUser checkUser("login", "python");
+    myReceiver(&checkUser);
+    bool success = checkUser.Success();
+
+    EXPECT_EQ(success, false);
+}
+
+TEST(database, good_find_user) {
+    std::string login = std::string("login");
+    Note data;
+
+    myDataBase.makeNote(login, data);
+
+    FindUser findUser("login");
+    myReceiver(&findUser);
+    bool success = findUser.Success();
+
+    EXPECT_EQ(success, true);
+}
+
+TEST(database, bad_find_user) {
+    std::string login = std::string("login");
+    Note data;
+
+    myDataBase.makeNote(login, data);
+
+    FindUser findUser("badlogin");
+    myReceiver(&findUser);
+    bool success = findUser.Success();
+
+    EXPECT_EQ(success, false);
+}
