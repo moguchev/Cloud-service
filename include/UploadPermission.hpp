@@ -1,9 +1,11 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CLOUD_SERVICE_UPLOADPERMISSION_HPP_
-#define CLOUD_SERVICE_UPLOADPERMISSION_HPP_
+#ifndef INCLUDE_UPLOADPERMISSION_HPP_
+#define INCLUDE_UPLOADPERMISSION_HPP_
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <string>
+#include <vector>
 #include "AbstractClient.hpp"
 #include "Commands.hpp"
 #include "Permission.hpp"
@@ -26,7 +28,8 @@ public:
 
     virtual std::string Handle(const std::vector<std::string>& args) {
         if (args.size() != 2)
-            return "fail"; // #TODO : function Handle should return special ErrorObject
+            return "fail";
+        // #TODO : function Handle should return special ErrorObject
 
         std::filesystem::path file_path(args[0]);
         uintmax_t size = std::filesystem::file_size(file_path);
@@ -49,7 +52,8 @@ public:
         };
         //auto status = sendPostRequest("upload", Body, args[1]);
         //if (!status())
-        //    return "fail"; // #TODO : function Handle should return special ErrorObject
+        //    return "fail";
+        // #TODO : function Handle should return special ErrorObject
     }
 
     virtual void SetOwner(AbstractClient* client) {
@@ -58,8 +62,9 @@ public:
 
 protected:
     AbstractClient* rightOwner_;
+
 private:
     std::istream* istream_;
     std::ostream* ostream_;
 };
-#endif  // CLOUD_SERVICE_UPLOADPERMISSION_HPP_
+#endif  // INCLUDE_UPLOADPERMISSION_HPP_

@@ -1,9 +1,10 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CLOUD_SERVICE_CREATEACCOUNTPERMISSION_HPP_
-#define CLOUD_SERVICE_CREATEACCOUNTPERMISSION_HPP_
+#ifndef INCLUDE_CREATEACCOUNTPERMISSION_HPP_
+#define INCLUDE_CREATEACCOUNTPERMISSION_HPP_
 #include <iostream>
-#include <vector>
 #include <set>
+#include <string>
+#include <vector>
 #include "AbstractClient.hpp"
 #include "Commands.hpp"
 #include "Permission.hpp"
@@ -28,5 +29,4 @@ private:
     std::istream* istream_;
     std::ostream* ostream_;
 };
-
-#endif  // CLOUD_SERVICE_CREATEACCOUNTPERMISSION_HPP_
+#endif  // INCLUDE_CREATEACCOUNTPERMISSION_HPP_

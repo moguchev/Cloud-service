@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CLOUD_SERVICE_CONSOLECLIENT_HPP_
-#define CLOUD_SERVICE_CONSOLECLIENT_HPP_
+#ifndef INCLUDE_CONSOLECLIENT_HPP_
+#define INCLUDE_CONSOLECLIENT_HPP_
 #include <list>
 #include <string>
 #include "Commands.hpp"
@@ -15,9 +15,9 @@ class ConsoleClient : public AbstractClient {
 public:
     ConsoleClient() = default;
 
-    ConsoleClient(permissions_t&& permissions);
+    ConsoleClient(permissions_t&& permissions) explicit;
 
-    ConsoleClient(const permissions_t& permissions);
+    ConsoleClient(const permissions_t& permissions) explicit;
 
     static ConsoleClient CreateDefault();
 
@@ -30,5 +30,4 @@ public:
 private:
     UserData user_;
 };
-
-#endif  // CLOUD_SERVICE_CONSOLECLIENT_HPP_
+#endif  // INCLUDE_CONSOLECLIENT_HPP_

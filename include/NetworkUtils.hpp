@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CLOUD_SERVICE_NETWORKUTILS_HPP_
-#define CLOUD_SERVICE_NETWORKUTILS_HPP_
+#ifndef INCLUDE_NETWORKUTILS_HPP_
+#define INCLUDE_NETWORKUTILS_HPP_
 #include <string>
 #include "ClientHTTPS.hpp"
 
@@ -25,7 +25,6 @@ namespace nu {
     }
 
     std::string post_request_from_target(const std::string& target,
-
         const std::string& body) {
         boost::asio::io_context io_service;
         ssl::context ctx(ssl::context::sslv23_client);
@@ -38,5 +37,6 @@ namespace nu {
 
         return request->get_body();
     }
+}  // namespace nu
+#endif  // INCLUDE_NETWORKUTILS_HPP_
 
-#endif  // CLOUD_SERVICE_NETWORKUTILS_HPP_

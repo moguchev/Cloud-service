@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CLOUD_SERVICE_COMMANDS_HPP_
-#define CLOUD_SERVICE_COMMANDS_HPP_
+#ifndef INCLUDE_COMMANDS_HPP_
+#define INCLUDE_COMMANDS_HPP_
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -50,7 +50,7 @@ namespace cmd {
         { LOGIN, "unexpected arguments" },
         { MERGE, "<repo/branch>" }
     };
-}
+}  // namespace cmd
 
 namespace cmd {
     class CommandParser {
@@ -71,6 +71,5 @@ namespace cmd {
 
         bool analyse();
     };
-}
-
-#endif  // CLOUD_SERVICE_COMMANDS_HPP_
+}  // namespace cmd
+#endif  // INCLUDE_COMMANDS_HPP_

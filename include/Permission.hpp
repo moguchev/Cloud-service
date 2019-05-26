@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CLOUD_SERVICE_PERMISSION_HPP_
-#define CLOUD_SERVICE_PERMISSION_HPP_
+#ifndef INCLUDE_PERMISSION_HPP_
+#define INCLUDE_PERMISSION_HPP_
 #include <string>
 #include <vector>
 
@@ -14,5 +14,4 @@ public:
     virtual void SetOwner(AbstractClient* client) = 0;
     virtual ~Permission() = default;
 };
-
-#endif  // CLOUD_SERVICE_PERMISSION_HPP_
+#endif  // INCLUDE_PERMISSION_HPP_

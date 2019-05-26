@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CLOUD_SERVICE_CLIENTHTTPS_HPP_
-#define CLOUD_SERVICE_CLIENTHTTPS_HPP_
+#ifndef INCLUDE_CLIENTHTTPS_HPP_
+#define INCLUDE_CLIENTHTTPS_HPP_
 #define _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
 
 #include <cstdlib>
@@ -38,7 +38,8 @@ public:
     explicit session(boost::asio::io_context& ioc, ssl::context& ctx)
         : resolver_(ioc), stream_(ioc, ctx) {}
 
-    void GetRequest(char const* host, char const* port, char const* target, int version);
+    void GetRequest(char const* host, char const* port,
+        char const* target, int version);
 
     void PostRequest(char const* host,
         char const* port,
@@ -62,5 +63,4 @@ public:
 
     std::string get_body();
 };
-
-#endif  // CLOUD_SERVICE_CLIENTHTTPS_HPP_
+#endif  // INCLUDE_CLIENTHTTPS_HPP_

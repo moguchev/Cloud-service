@@ -50,4 +50,4 @@ namespace cmd {
         }
         return false;
     }
-}
+}  // namespace cmd
