@@ -11,13 +11,13 @@
 
 
 namespace cmd {
-const std::string CREATE_ACCOUNT = "createaccount";
-const std::string CREATE_BRANCH = "createbranch";
-const std::string CREATE_REPOSITORY = "createrepository";
-const std::string DOWNLOAD = "download";
-const std::string UPLOAD = "upload";
-const std::string MERGE = "merge";
-const std::string LOGIN = "login";
+const auto CREATE_ACCOUNT = "createaccount";
+const auto CREATE_BRANCH = "createbranch";
+const auto CREATE_REPOSITORY = "createrepository";
+const auto DOWNLOAD = "download";
+const auto UPLOAD = "upload";
+const auto MERGE = "merge";
+const auto LOGIN = "login";
 using args_t = std::vector<std::string>;
 
 inline bool isEmptyArgs(const args_t& args) {
