@@ -11,65 +11,67 @@
 
 
 namespace cmd {
-    const std::string CREATE_ACCOUNT = "createaccount";
-    const std::string CREATE_BRANCH = "createbranch";
-    const std::string CREATE_REPOSITORY = "createrepository";
-    const std::string DOWNLOAD = "download";
-    const std::string UPLOAD = "upload";
-    const std::string MERGE = "merge";
-    const std::string LOGIN = "login";
-    using args_t = std::vector<std::string>;
+const std::string CREATE_ACCOUNT = "createaccount";
+const std::string CREATE_BRANCH = "createbranch";
+const std::string CREATE_REPOSITORY = "createrepository";
+const std::string DOWNLOAD = "download";
+const std::string UPLOAD = "upload";
+const std::string MERGE = "merge";
+const std::string LOGIN = "login";
+using args_t = std::vector<std::string>;
 
-    inline bool isEmptyArgs(const args_t& args) {
-        if (args.size() == 0)
-            return true;
-        return false;
-    }
-    inline bool checkCrRepo(const args_t& args);
-    inline bool checkCrBranch(const args_t& args);
-    inline bool checkDownload(const args_t& args);
-    inline bool checkUpload(const args_t& args);
-    inline bool checkMerge(const args_t& args);
+inline bool isEmptyArgs(const args_t& args) {
+    if (args.size() == 0)
+        return true;
+    return false;
+}
+inline bool checkCrRepo(const args_t& args);
+inline bool checkCrBranch(const args_t& args);
+inline bool checkDownload(const args_t& args);
+inline bool checkUpload(const args_t& args);
+inline bool checkMerge(const args_t& args);
 
-    const std::map<std::string, std::function<bool(const args_t&)>> COMMANDS = {
-        { CREATE_ACCOUNT, isEmptyArgs },
-        { CREATE_REPOSITORY, checkCrRepo },
-        { CREATE_BRANCH, checkCrBranch },
-        { DOWNLOAD,  checkDownload },
-        { UPLOAD, checkUpload },
-        { LOGIN, isEmptyArgs },
-        { MERGE, checkMerge }
-    };
+const std::map<std::string, std::function<bool(const args_t&)>> COMMANDS = {
+    { CREATE_ACCOUNT, isEmptyArgs },
+    { CREATE_REPOSITORY, checkCrRepo },
+    { CREATE_BRANCH, checkCrBranch },
+    { DOWNLOAD,  checkDownload },
+    { UPLOAD, checkUpload },
+    { LOGIN, isEmptyArgs },
+    { MERGE, checkMerge }
+};
 
-    const std::map<std::string, std::string> HELP_INFO_FOR_COMMANDS = {
-        { CREATE_ACCOUNT, "unexpected arguments" },
-        { CREATE_REPOSITORY, "<name>" },
-        { CREATE_BRANCH, "<repo/name>" },
-        { DOWNLOAD, "<repo/branch/directory/file><path-where>" },
-        { UPLOAD, "<path><repo/branch|repo/branch/directory>" },
-        { LOGIN, "unexpected arguments" },
-        { MERGE, "<repo/branch>" }
-    };
+const std::map<std::string, std::string> HELP_INFO_FOR_COMMANDS = {
+    { CREATE_ACCOUNT, "unexpected arguments" },
+    { CREATE_REPOSITORY, "<name>" },
+    { CREATE_BRANCH, "<repo/name>" },
+    { DOWNLOAD, "<repo/branch/directory/file><path-where>" },
+    { UPLOAD, "<path><repo/branch|repo/branch/directory>" },
+    { LOGIN, "unexpected arguments" },
+    { MERGE, "<repo/branch>" }
+};
+
 }  // namespace cmd
 
 namespace cmd {
-    class CommandParser {
-    public:
-        CommandParser() = default;
-        ~CommandParser() = default;
+class CommandParser {
+public:
+    CommandParser() = default;
+    ~CommandParser() = default;
 
-        bool parse(const std::string& command);
+    bool parse(const std::string& command);
 
-        std::string GetCommand() const noexcept;
+    std::string GetCommand() const noexcept;
 
-        args_t GetArgs() const noexcept;
-    private:
-        std::string command_;
-        args_t args_;
+    args_t GetArgs() const noexcept;
+private:
+    std::string command_;
+    args_t args_;
 
-        args_t getLexemes(const std::string& str);
+    args_t getLexemes(const std::string& str);
 
-        bool analyse();
-    };
+    bool analyse();
+};
+
 }  // namespace cmd
 #endif  // INCLUDE_COMMANDS_HPP_
