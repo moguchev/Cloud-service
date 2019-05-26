@@ -15,9 +15,9 @@ class ConsoleClient : public AbstractClient {
 public:
     ConsoleClient() = default;
 
-    ConsoleClient(permissions_t&& permissions) explicit;
+    explicit ConsoleClient(permissions_t&& permissions);
 
-    ConsoleClient(const permissions_t& permissions) explicit;
+    explicit ConsoleClient(const permissions_t& permissions);
 
     static ConsoleClient CreateDefault();
 
