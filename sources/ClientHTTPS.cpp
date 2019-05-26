@@ -1,3 +1,4 @@
+// Copyright 2019 (c) <Cloud9>
 #include "ClientHTTPS.hpp"
 
 void fail(error_code ec, char const* what) {
@@ -8,8 +9,7 @@ void session::GetRequest(
     char const* host,
     char const* port,
     char const* target,
-    int version) 
-{
+    int version) {
     if (!SSL_set_tlsext_host_name(stream_.native_handle(), host)) {
         error_code ec{ static_cast<int>(::ERR_get_error()),
                                      net::error::get_ssl_category() };
@@ -27,8 +27,8 @@ void session::GetRequest(
     resolver_.async_resolve(
         host,
         port,
-        std::bind(&session::on_resolve, shared_from_this(), std::placeholders::_1,
-            std::placeholders::_2));
+        std::bind(&session::on_resolve, shared_from_this(),
+            std::placeholders::_1, std::placeholders::_2));
 }
 
 void session::PostRequest(
@@ -57,8 +57,8 @@ void session::PostRequest(
 
     resolver_.async_resolve(
         host, port,
-        std::bind(&session::on_resolve, shared_from_this(), std::placeholders::_1,
-            std::placeholders::_2));
+        std::bind(&session::on_resolve, shared_from_this(),
+            std::placeholders::_1, std::placeholders::_2));
 }
 
 void session::on_resolve(error_code ec,

@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef HTTP_CLIENT_ASYNC_SSL_HPP
-#define HTTP_CLIENT_ASYNC_SSL_HPP
+#ifndef CLOUD_SERVICE_CLIENTHTTPS_HPP_
+#define CLOUD_SERVICE_CLIENTHTTPS_HPP_
 #define _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
 
 #include <cstdlib>
@@ -17,7 +17,6 @@
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
-
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -64,4 +63,4 @@ public:
     std::string get_body();
 };
 
-#endif  // HTTP_CLIENT_ASYNC_SSL_HPP
+#endif  // CLOUD_SERVICE_CLIENTHTTPS_HPP_

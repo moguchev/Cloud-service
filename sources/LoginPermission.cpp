@@ -14,7 +14,6 @@ bool LoginPermission::CanHandle(const std::string& com) {
 }
 
 std::string LoginPermission::Handle(const std::vector<std::string>& args) {
-    
     auto userData = logining(*istream_, *ostream_);
     if (rightOwner_ != nullptr) {
         rightOwner_->SetProfile(*userData);

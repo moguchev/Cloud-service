@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CONSOLECLIENT_HPP
-#define CONSOLECLIENT_HPP
+#ifndef CLOUD_SERVICE_CONSOLECLIENT_HPP_
+#define CLOUD_SERVICE_CONSOLECLIENT_HPP_
 #include <list>
 #include <string>
 #include "Commands.hpp"
@@ -31,4 +31,4 @@ private:
     UserData user_;
 };
 
-#endif  // CONSOLECLIENT_HPP
+#endif  // CLOUD_SERVICE_CONSOLECLIENT_HPP_

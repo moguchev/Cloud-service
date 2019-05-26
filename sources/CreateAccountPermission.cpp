@@ -1,7 +1,8 @@
 // Copyright 2019 (c) <Cloud9>
 #include "CreateAccountPermission.hpp"
 
-CreateAccountPermission::CreateAccountPermission(std::istream& in, std::ostream& out)
+CreateAccountPermission::CreateAccountPermission(
+    std::istream& in, std::ostream& out)
     : istream_(&in)
     , ostream_(&out)
 {}
@@ -12,15 +13,20 @@ bool CreateAccountPermission::CanHandle(const std::string& com) {
     return false;
 }
 
-std::string CreateAccountPermission::Handle(const std::vector<std::string>& args) {
+std::string CreateAccountPermission::Handle(
+    const std::vector<std::string>& args) {
     auto userData = registration(*istream_, *ostream_);
-    std::vector<std::string> body = { userData->username, userData->mail, userData->password };
-    // auto status = sendPostRequest(body);
-    /* while (!status) {
+    std::vector<std::string> body = {
+        userData->username,
+        userData->mail,
+        userData->password
+    };
+    /*auto status = sendPostRequest(body);
+    while (!status) {
         *ostream_ << status.what() << std::endl;
-        userdata = registration(*istream_, *ostream_);
+        auto userdata = registration(*istream_, *ostream_);
         std::vector<std::string> body = { userdata->username, userdata->mail, userdata->password };
-        status = sendpostrequest(body);
+        status = sendPostrequest(body);
     }*/
 
     // if success
@@ -44,7 +50,6 @@ UserData* registration(std::istream& in, std::ostream& out) {
     in >> user->mail;
     // email checker
     // ...
-    // 
     std::string password;
     do {
         out << "Enter your password: ";

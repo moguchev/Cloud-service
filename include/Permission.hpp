@@ -1,6 +1,8 @@
-#ifndef PERMISSION_HPP
-#define PERMISSION_HPP
+// Copyright 2019 (c) <Cloud9>
+#ifndef CLOUD_SERVICE_PERMISSION_HPP_
+#define CLOUD_SERVICE_PERMISSION_HPP_
 #include <string>
+#include <vector>
 
 class AbstractClient;
 
@@ -13,4 +15,4 @@ public:
     virtual ~Permission() = default;
 };
 
-#endif  // PERMISSION_HPP
+#endif  // CLOUD_SERVICE_PERMISSION_HPP_

@@ -2,64 +2,52 @@
 #include "Commands.hpp"
 
 namespace cmd {
-
     bool CommandParser::parse(const std::string& command) {
-        auto lexemes = getLexemes(command);
+        args_t lexemes = getLexemes(command);
         if (lexemes.size() == 0)
             return false;
 
-        command_ = lexemes.at(0);
+        command_ = lexemes[0];
         if (COMMANDS.find(command_) == COMMANDS.end())
             return false;
 
-        std::copy(lexemes.begin() + 1, lexemes.end(), args_.begin());
+        args_.reserve(lexemes.size() - 1);
+        args_.clear();
 
-        /*if (!analyse())
-            return false;*/
+        //  Expression: cannot seek vector iterator after end
+        //  std::copy(lexemes.begin() + 1, lexemes.end(), args_.begin());
+        args_ = lexemes;
+        args_.erase(args_.begin());
+
+        if (!analyse())
+            return false;
+
         return true;
     }
 
-    std::string CommandParser::GetCommand() const {
+    std::string CommandParser::GetCommand() const noexcept {
         return command_;
     }
 
-    std::vector<std::string> CommandParser::GetArgs() const {
+    args_t CommandParser::GetArgs() const noexcept {
         return args_;
     }
 
-    std::vector<std::string> CommandParser::getLexemes(const std::string& str) {
-            std::stringstream ss(str);
-            std::string lexeme;
-            std::vector<std::string> lexemes;
-            while (ss >> lexeme) {
-                lexemes.push_back(lexeme);
-            }
-            return lexemes;
+    args_t CommandParser::getLexemes(const std::string& str) {
+        std::stringstream ss(str);
+        std::string lexeme;
+        args_t lexemes;
+        while (ss >> lexeme) {
+            lexemes.push_back(lexeme);
         }
+        return lexemes;
+    }
 
-        bool CommandParser::analyse() {
-            if (command_ == CREATE_ACCOUNT) {
-                if (args_.size() == 0)
-                    return true;
-                return false;
-            }
-            if (command_ == LOGIN) {
-                if (args_.size() == 0)
-                    return true;
-                return false;
-            }
-            if (command_ == DOWNLOAD) {
-                // ... 
-                return true;
-            }
-            if (command_ == UPLOAD) {
-                // ... 
-                return true;
-            }
-            if (command_ == MERGE) {
-                // ... 
-                return true;
-            }
-            return false;
+    bool CommandParser::analyse() {
+        auto it = COMMANDS.find(command_);
+        if (it != COMMANDS.end()) {
+            return it->second(args_);
         }
+        return false;
+    }
 }

@@ -1,6 +1,6 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef LOGINPERMISSION_HPP
-#define LOGINPERMISSION_HPP
+#ifndef CLOUD_SERVICE_LOGINPERMISSION_HPP_
+#define CLOUD_SERVICE_LOGINPERMISSION_HPP_
 #include <iostream>
 #include "AbstractClient.hpp"
 #include "Commands.hpp"
@@ -28,4 +28,4 @@ private:
     std::ostream* ostream_;
 };
 
-#endif  // LOGINPERMISSION_HPP
+#endif  // CLOUD_SERVICE_LOGINPERMISSION_HPP_

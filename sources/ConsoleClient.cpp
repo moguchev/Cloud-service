@@ -1,9 +1,14 @@
 // Copyright 2019 (c) <Cloud9>
 #include "ConsoleClient.hpp"
+#include "DownloadPermission.hpp"
+#include "UploadPermission.hpp"
+#include "MergePermission.hpp"
+#include "DeleteFilesPermission.hpp"
 
 permissions_t BasicPermissions() {
     permissions_t permissions = {
-        new DownloadPermission /*, new UploadPermission, new MergePermission, new DeleteFilesPermission */
+         new DownloadPermission , new UploadPermission
+         /*, new MergePermission, new DeleteFilesPermission */
     };
     return  permissions;
 }
@@ -43,7 +48,7 @@ void ConsoleClient::RunCommand(const std::string& com) {
             std::cout << status << std::endl;
             action = true;
             break;
-        } 
+        }
     }
 
     if (!action) {

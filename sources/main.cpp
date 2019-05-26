@@ -1,11 +1,14 @@
 // Copyright 2019 (c) <Cloud9>
-#define _CRTDBG_MAP_ALLOC 
+#define _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+#define _CRTDBG_MAP_ALLOC
 #define new new( _NORMAL_BLOCK, __FILE__, __LINE__)
 #include <stdlib.h>
 #include <crtdbg.h>
 #include <iostream>
+#include <fstream>
+#include <filesystem>
 #include <string>
-#include <sstream> 
+#include <sstream>
 #include "ConsoleClient.hpp"
 
 
@@ -19,7 +22,5 @@ int main() {
     }
     _CrtMemDumpAllObjectsSince(&_ms);
 
-    
-    system("pause");
     return 0;
 }

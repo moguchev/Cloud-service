@@ -1,5 +1,6 @@
-#ifndef ABSTRACTCLIENT_HPP
-#define ABSTRACTCLIENT_HPP
+// Copyright 2019 (c) <Cloud9>
+#ifndef CLOUD_SERVICE_ABSTRACTCLIENT_HPP_
+#define CLOUD_SERVICE_ABSTRACTCLIENT_HPP_
 #include <list>
 #include "Permission.hpp"
 
@@ -26,4 +27,4 @@ protected:
     permissions_t permissions_;
 };
 
-#endif  // ABSTRACTCLIENT_HPP
+#endif  // CLOUD_SERVICE_ABSTRACTCLIENT_HPP_

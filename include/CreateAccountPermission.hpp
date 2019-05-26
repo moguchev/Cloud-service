@@ -1,8 +1,9 @@
 // Copyright 2019 (c) <Cloud9>
-#ifndef CREATEACCOUNTPERMISSION_HPP
-#define CREATEACCOUNTPERMISSION_HPP
+#ifndef CLOUD_SERVICE_CREATEACCOUNTPERMISSION_HPP_
+#define CLOUD_SERVICE_CREATEACCOUNTPERMISSION_HPP_
 #include <iostream>
 #include <vector>
+#include <set>
 #include "AbstractClient.hpp"
 #include "Commands.hpp"
 #include "Permission.hpp"
@@ -14,18 +15,13 @@ public:
     CreateAccountPermission() = delete;
     virtual ~CreateAccountPermission() = default;
 
-    CreateAccountPermission(std::istream& in, std::ostream& out)
-        : istream_(&in)
-        , ostream_(&out)
-    {}
+    CreateAccountPermission(std::istream& in, std::ostream& out);
 
     virtual bool CanHandle(const std::string& com);
 
     virtual std::string Handle(const std::vector<std::string>& args);
 
-    virtual void SetOwner(AbstractClient* client) {
-        rightOwner_ = client;
-    }
+    virtual void SetOwner(AbstractClient* client);
 protected:
     AbstractClient* rightOwner_ = nullptr;
 private:
@@ -33,4 +29,4 @@ private:
     std::ostream* ostream_;
 };
 
-#endif  // CREATEACCOUNTPERMISSION_HPP
+#endif  // CLOUD_SERVICE_CREATEACCOUNTPERMISSION_HPP_

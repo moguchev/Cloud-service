@@ -58,7 +58,7 @@ target_link_libraries(tests
 	PUBLIC
 	GTest::main
 	Boost::system
-  Boost::thread
+  	Boost::thread
 	Boost::filesystem
 	OpenSSL::SSL
 	OpenSSL::Crypto
